@@ -1,5 +1,7 @@
+import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { useAtom } from "jotai";
+import { CheckIcon, CogIcon } from "lucide-react";
 import { useCallback, useMemo, useRef, useState, useTransition } from "react";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import DemFilterBar, { type UpdateEventHandler } from "./DemFilterBar";
@@ -8,11 +10,14 @@ import {
   demSelectedEntityIndexAtom,
   demTickAtom,
 } from "./atoms";
+import { Button } from "./lib/Button";
 import { ScrollArea } from "./lib/ScrollArea";
+import { Tooltip } from "./lib/Tooltip";
 import { type EntityLi } from "./lib/haste";
 import { cn } from "./lib/style";
 
 const LI_HEIGHT = 26;
+const DEFAULT_SHOW_TYPE_INFO = true;
 
 function EntityList() {
   const [demParser] = useAtom(demParserAtom);
@@ -106,6 +111,54 @@ function EntityList() {
   );
 }
 
+type EntityFieldListPreferencesProps = {
+  showTypeInfo: boolean;
+  setShowTypeInfo: (value: boolean) => void;
+};
+
+function EntityFieldListPreferences(props: EntityFieldListPreferencesProps) {
+  const { showTypeInfo, setShowTypeInfo } = props;
+
+  const [open, setOpen] = useState(false);
+
+  const active = open || showTypeInfo;
+
+  return (
+    <DropdownMenuPrimitive.Root open={open} onOpenChange={setOpen}>
+      <DropdownMenuPrimitive.Trigger asChild>
+        <span className="inline-flex">
+          <Tooltip content="display preferences">
+            <Button size="small" className={cn(active && "bg-neutral-500/30")}>
+              <CogIcon
+                className={cn("size-4", !active && "stroke-fg-subtle")}
+              />
+            </Button>
+          </Tooltip>
+        </span>
+      </DropdownMenuPrimitive.Trigger>
+      <DropdownMenuPrimitive.Portal>
+        <DropdownMenuPrimitive.Content
+          align="end"
+          sideOffset={8}
+          // NOTE: following classes are stole from tooltip
+          className="bg-white dark:bg-black rounded z-10"
+        >
+          <DropdownMenuPrimitive.CheckboxItem
+            checked={showTypeInfo}
+            onCheckedChange={setShowTypeInfo}
+            className="flex items-center hover:bg-neutral-500/30 rounded px-2 py-0.5 gap-x-2 cursor-pointer"
+          >
+            <DropdownMenuPrimitive.ItemIndicator>
+              <CheckIcon className="size-4" />
+            </DropdownMenuPrimitive.ItemIndicator>
+            show type info
+          </DropdownMenuPrimitive.CheckboxItem>
+        </DropdownMenuPrimitive.Content>
+      </DropdownMenuPrimitive.Portal>
+    </DropdownMenuPrimitive.Root>
+  );
+}
+
 function EntityFieldList() {
   const [demParser] = useAtom(demParserAtom);
   const [demTick] = useAtom(demTickAtom);
@@ -168,6 +221,8 @@ function EntityFieldList() {
     estimateSize: () => LI_HEIGHT,
   });
 
+  const [showTypeInfo, setShowTypeInfo] = useState(DEFAULT_SHOW_TYPE_INFO);
+
   return (
     <div className="w-full h-full flex flex-col">
       <DemFilterBar
@@ -175,6 +230,15 @@ function EntityFieldList() {
         onUpdate={handleFilterUpdate}
         updateDelay={10}
         placehoder="filter entity fields…"
+        endAdornment={
+          <>
+            <div className="w-px h-4 bg-divider" />
+            <EntityFieldListPreferences
+              showTypeInfo={showTypeInfo}
+              setShowTypeInfo={setShowTypeInfo}
+            />
+          </>
+        }
         className="border-b border-divider"
       />
       {demSelectedEntityIndex === undefined && (
@@ -189,7 +253,7 @@ function EntityFieldList() {
       )}
       <ScrollArea className="w-full grow" viewportRef={viewportRef}>
         <ul
-          className="grow relative"
+          className="w-full h-full relative"
           style={{ height: virtualizer.getTotalSize() }}
         >
           {virtualizer.getVirtualItems().map((virtualItem) => {
@@ -205,16 +269,23 @@ function EntityFieldList() {
                   transform: `translateY(${virtualItem.start}px)`,
                 }}
               >
-                <span className="text-ellipsis overflow-hidden whitespace-nowrap gap-x-[1ch] flex">
+                <span className="whitespace-nowrap gap-x-[1ch] flex">
                   <span className="text-fg-subtle">
-                    {entityFieldItem?.joinedNamedPath}:
+                    {entityFieldItem.joinedNamedPath}
                   </span>
-                  <span className="text-fg-subtle opacity-40">
-                    {entityFieldItem?.inner.encodedAs}
-                    {" -> "}
-                    {entityFieldItem?.inner.decodedAs}
-                  </span>
-                  <span>{entityFieldItem?.inner.value}</span>
+                  <span className="text-fg-subtle opacity-40 -ml-2">:</span>
+                  {showTypeInfo && (
+                    <>
+                      <span className="text-fg-subtle opacity-40">
+                        {entityFieldItem.inner.encodedAs}
+                      </span>
+                      <span className="text-fg-subtle opacity-40">{"->"}</span>
+                      <span className="text-fg-subtle opacity-40">
+                        {entityFieldItem.inner.decodedAs}
+                      </span>
+                    </>
+                  )}
+                  <span>{entityFieldItem.inner.value}</span>
                 </span>
               </li>
             );
@@ -229,7 +300,7 @@ export default function DemEntities() {
   return (
     <div className="grow h-0">
       <PanelGroup direction="horizontal">
-        <Panel minSize={24} defaultSize={32}>
+        <Panel minSize={24} defaultSize={24}>
           <EntityList />
         </Panel>
         <PanelResizeHandle className="w-px h-full bg-divider data-[resize-handle-state=hover]:bg-current data-[resize-handle-state=drag]:bg-current" />

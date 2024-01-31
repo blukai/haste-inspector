@@ -4,6 +4,7 @@ import { Button } from "./lib/Button";
 import { Tooltip } from "./lib/Tooltip";
 import { debounce } from "./lib/debounce";
 import { cn } from "./lib/style";
+import { useElementSize } from "./lib/useElementSize";
 import { useEventCallback } from "./lib/useEventCallback";
 
 export type SearchCmpFn = (value: string) => boolean;
@@ -50,6 +51,7 @@ type DemFilterBarProps<Entry> = {
   onUpdate: UpdateEventHandler<Entry>;
   updateDelay?: number;
   placehoder?: string;
+  endAdornment?: React.ReactNode;
 } & React.HTMLAttributes<HTMLDivElement>;
 
 export default function DemFilterBar<Entry>(props: DemFilterBarProps<Entry>) {
@@ -59,6 +61,7 @@ export default function DemFilterBar<Entry>(props: DemFilterBarProps<Entry>) {
     updateDelay,
     placehoder,
     className,
+    endAdornment,
     ...restProps
   } = props;
 
@@ -127,6 +130,9 @@ export default function DemFilterBar<Entry>(props: DemFilterBarProps<Entry>) {
     applyUpdateDebounced();
   };
 
+  const endAdornmentsWrapperRef = useRef<HTMLDivElement>(null);
+  const endAdornmentsSize = useElementSize(endAdornmentsWrapperRef);
+
   return (
     <div
       className={cn(
@@ -140,9 +146,14 @@ export default function DemFilterBar<Entry>(props: DemFilterBarProps<Entry>) {
         ref={searchInputRef}
         placeholder={placehoder}
         className={cn(
-          "w-full h-full pl-2 pr-16 bg-transparent -outline-offset-1",
+          "w-full h-full pl-2 bg-transparent -outline-offset-1",
           !!regexError && "outline outline-1 outline-red-500",
         )}
+        style={{
+          // NOTE: 0.25rem is equivalent of 1 tailwind spacing unit, see
+          // https://tailwindcss.com/docs/customizing-spacing
+          paddingRight: `calc(0.25rem * 2 + ${endAdornmentsSize.width}px)`,
+        }}
         value={searchQuery}
         onChange={handleSearchQueryChange}
         autoComplete="off"
@@ -150,36 +161,36 @@ export default function DemFilterBar<Entry>(props: DemFilterBarProps<Entry>) {
         autoCapitalize="off"
         spellCheck={false}
       />
-      <Tooltip content="match case">
-        <Button
-          size="small"
-          className={cn(
-            "absolute right-0 mr-8",
-            matchCase && "bg-neutral-500/30",
-          )}
-          onClick={handleMatchCaseClick}
-        >
-          <CaseSensitiveIcon
-            className={cn("size-4", !matchCase && "stroke-fg-subtle")}
-          />
-        </Button>
-      </Tooltip>
-      <Tooltip content="use regex">
-        <Button
-          size="small"
-          className={cn(
-            "absolute right-0 mr-1",
-            testRegex && "bg-neutral-500/30",
-          )}
-          onClick={handleTestRegexClick}
-        >
-          <RegexIcon
-            className={cn("size-4", !testRegex && "stroke-fg-subtle")}
-          />
-        </Button>
-      </Tooltip>
+      <div
+        ref={endAdornmentsWrapperRef}
+        className="absolute right-1 flex items-center gap-x-1"
+      >
+        <Tooltip content="match case">
+          <Button
+            size="small"
+            className={cn(matchCase && "bg-neutral-500/30")}
+            onClick={handleMatchCaseClick}
+          >
+            <CaseSensitiveIcon
+              className={cn("size-4", !matchCase && "stroke-fg-subtle")}
+            />
+          </Button>
+        </Tooltip>
+        <Tooltip content="use regex">
+          <Button
+            size="small"
+            className={cn(testRegex && "bg-neutral-500/30")}
+            onClick={handleTestRegexClick}
+          >
+            <RegexIcon
+              className={cn("size-4", !testRegex && "stroke-fg-subtle")}
+            />
+          </Button>
+        </Tooltip>
+        {endAdornment}
+      </div>
       {!!regexError && (
-        <p className="absolute top-full bg-red-900 border border-1 border-t-0 border-red-500 z-10 px-2 py-2 text-sm">
+        <p className="absolute top-full bg-red-900 border border-1 border-t-0 border-red-500 z-10 px-2 py-2 text-sm w-full">
           {`${regexError}`}
         </p>
       )}
