@@ -19,8 +19,8 @@ function atomWithToggleAndStorage(
   return derivedAtom;
 }
 
-export const darkModeAtom = atomWithToggleAndStorage("darkMode");
-export const fullWidthAtom = atomWithToggleAndStorage("fullWidth");
+export const darkModeAtom = atomWithToggleAndStorage("darkMode", true);
+export const fullWidthAtom = atomWithToggleAndStorage("fullWidth", false);
 
 export const demFileAtom = atom<File | undefined>(undefined);
 export const demParserAtom = atom<WrappedParser | undefined>(undefined);
