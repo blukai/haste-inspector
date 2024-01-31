@@ -20,6 +20,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       <button
         ref={ref}
         className={cn(variants({ size, className }))}
+        type="button"
         {...restProps}
       >
         {children}

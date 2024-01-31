@@ -4,7 +4,6 @@
 export const isDom = () => typeof document !== "undefined";
 
 export const getPlatform = () =>
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   (navigator as any).userAgentData?.platform ?? navigator.platform;
 
 const pt = (v: RegExp) => v.test(getPlatform());

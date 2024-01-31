@@ -11,12 +11,9 @@ export default function DemControlBar() {
 
   const [value, setValue] = useState(demTick);
   useEffect(() => setValue(demTick), [demTick]);
-  const handleValueChange = useCallback(
-    ([nextValue]: number[]) => {
-      setValue(nextValue);
-    },
-    [setValue],
-  );
+  const handleValueChange = useCallback(([nextValue]: number[]) => {
+    setValue(nextValue);
+  }, []);
 
   const [, startTransition] = useTransition();
   const handleValueCommit = useCallback(

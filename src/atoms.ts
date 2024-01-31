@@ -6,7 +6,6 @@ import { type WrappedParser } from "./lib/haste";
 function atomWithToggleAndStorage(
   key: string,
   initialValue?: boolean,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   storage?: any,
 ) {
   const anAtom = atomWithStorage(key, initialValue, storage);
