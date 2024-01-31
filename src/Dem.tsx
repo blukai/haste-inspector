@@ -59,7 +59,10 @@ export default function Dem() {
       return (
         <div className="p-4 flex items-baseline">
           <Tooltip content="monkaW">
-            <img src="/monkaW.webp" className="h-[1em] mr-[1ch]" />
+            <img
+              src={`${import.meta.env.BASE_URL}/monkaW.webp`}
+              className="h-[1em] mr-[1ch]"
+            />
           </Tooltip>
           <span className="text-red-500">{`${initError}`}</span>
         </div>
@@ -68,7 +71,10 @@ export default function Dem() {
     return (
       <div className="p-4 flex items-baseline">
         <Tooltip content="borpaSpin">
-          <img src="/borpaSpin.webp" className="h-[1em] mr-[1ch]" />
+          <img
+            src={`${import.meta.env.BASE_URL}/borpaSpin.webp`}
+            className="h-[1em] mr-[1ch]"
+          />
         </Tooltip>
         <span className="text-neutral-400">{`${doingWhat}…`}</span>
       </div>

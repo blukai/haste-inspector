@@ -63,7 +63,10 @@ function UiSection() {
           ) : (
             <div className="flex items-baseline">
               wide mode
-              <img src="/widepeepoHappy.webp" className="h-[1em] ml-[1ch]" />
+              <img
+                src={`${import.meta.env.BASE_URL}/widepeepoHappy.webp`}
+                className="h-[1em] ml-[1ch]"
+              />
             </div>
           )
         }
