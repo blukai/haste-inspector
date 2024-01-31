@@ -1,0 +1,12 @@
+[package]
+name = "haste"
+version = "0.0.0"
+edition = "2021"
+
+[dependencies]
+haste_dota2 = { git = "https://github.com/blukai/haste", package = "haste_dota2", features = ["preserve-metadata"] }
+wasm-bindgen = "0.2"
+
+[lib]
+crate-type = ["cdylib"]
+path = "src/lib/haste/haste.rs"
