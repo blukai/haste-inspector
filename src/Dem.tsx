@@ -57,7 +57,7 @@ export default function Dem() {
   if (!demParser) {
     if (initError) {
       return (
-        <div className="p-4 flex items-baseline">
+        <div className="p-2 flex items-baseline">
           <Tooltip content="monkaW">
             <img
               src={`${import.meta.env.BASE_URL}/monkaW.webp`}
@@ -69,7 +69,7 @@ export default function Dem() {
       );
     }
     return (
-      <div className="p-4 flex items-baseline">
+      <div className="p-2 flex items-baseline">
         <Tooltip content="borpaSpin">
           <img
             src={`${import.meta.env.BASE_URL}/borpaSpin.webp`}
