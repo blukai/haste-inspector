@@ -5,7 +5,7 @@
 //   it should be possible to make prost add [wasm_bindgen] "derives".
 // - https://stackoverflow.com/questions/65332927/is-it-possible-to-wasm-bindgen-public-structs-and-functions-defined-in-anothe
 
-use haste_dota2::{
+use haste::{
     fieldpath::FieldPath,
     fieldvalue::FieldValue,
     flattenedserializers::FlattenedSerializer,

@@ -1,12 +1,12 @@
 /* tslint:disable */
 /* eslint-disable */
 export const memory: WebAssembly.Memory;
-export function __wbg_wrappedparser_free(a: number): void;
-export function __wbg_entityli_free(a: number): void;
+export function __wbg_wrappedparser_free(a: number, b: number): void;
+export function __wbg_entityli_free(a: number, b: number): void;
 export function __wbg_get_entityli_index(a: number): number;
 export function __wbg_set_entityli_index(a: number, b: number): void;
 export function __wbg_get_entityli_name(a: number, b: number): void;
-export function __wbg_entityfieldli_free(a: number): void;
+export function __wbg_entityfieldli_free(a: number, b: number): void;
 export function __wbg_get_entityfieldli_path(a: number, b: number): void;
 export function __wbg_set_entityfieldli_path(a: number, b: number, c: number): void;
 export function __wbg_get_entityfieldli_namedPath(a: number, b: number): void;

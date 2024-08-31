@@ -52,7 +52,7 @@ export default function AppWelcome() {
       <input {...getInputProps()} />
       <p>
         <HandMetalIcon className="inline size-[1em]" /> drag and drop your
-        replay <FileDigitIcon className="inline size-[1em]" /> file here
+        replay (.dem) <FileDigitIcon className="inline size-[1em]" /> file here
       </p>
       <p className="text-neutral-400">
         <small>

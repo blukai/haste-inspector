@@ -4,7 +4,7 @@ version = "0.0.0"
 edition = "2021"
 
 [dependencies]
-haste_dota2 = { git = "https://github.com/blukai/haste", package = "haste_dota2", features = ["preserve-metadata"] }
+haste = { git = "https://github.com/blukai/haste.git", rev = "0fa015ddf428468abfda843fced68557533f5694", package = "haste", features = ["preserve-metadata"] }
 wasm-bindgen = "0.2"
 
 [lib]
