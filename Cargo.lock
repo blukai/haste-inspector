@@ -60,9 +60,36 @@ dependencies = [
 ]
 
 [[package]]
+name = "dungers"
+version = "0.0.0"
+source = "git+https://github.com/blukai/dungers.git?rev=c3b56109c14e9c52797860cfd348adda04e5c2a4#c3b56109c14e9c52797860cfd348adda04e5c2a4"
+dependencies = [
+ "dungers_bitbuf",
+ "dungers_charsor",
+ "dungers_varint",
+]
+
+[[package]]
+name = "dungers_bitbuf"
+version = "0.0.0"
+source = "git+https://github.com/blukai/dungers.git?rev=c3b56109c14e9c52797860cfd348adda04e5c2a4#c3b56109c14e9c52797860cfd348adda04e5c2a4"
+dependencies = [
+ "dungers_varint",
+ "thiserror",
+]
+
+[[package]]
 name = "dungers_charsor"
 version = "0.0.0"
-source = "git+https://github.com/blukai/dungers.git?rev=09ade72623e74298d688402f7d007466499a83e6#09ade72623e74298d688402f7d007466499a83e6"
+source = "git+https://github.com/blukai/dungers.git?rev=c3b56109c14e9c52797860cfd348adda04e5c2a4#c3b56109c14e9c52797860cfd348adda04e5c2a4"
+
+[[package]]
+name = "dungers_varint"
+version = "0.0.0"
+source = "git+https://github.com/blukai/dungers.git?rev=c3b56109c14e9c52797860cfd348adda04e5c2a4#c3b56109c14e9c52797860cfd348adda04e5c2a4"
+dependencies = [
+ "thiserror",
+]
 
 [[package]]
 name = "dyn-clone"
@@ -114,15 +141,16 @@ checksum = "e5274423e17b7c9fc20b6e7e208532f9b19825d82dfd615708b70edd83df41f1"
 name = "haste"
 version = "0.0.0"
 dependencies = [
- "haste 0.0.0 (git+https://github.com/blukai/haste.git?rev=0fa015ddf428468abfda843fced68557533f5694)",
+ "haste 0.0.0 (git+https://github.com/blukai/haste.git?rev=fbda4a3ec4727687e7097a69bebda9740469fa5a)",
  "wasm-bindgen",
 ]
 
 [[package]]
 name = "haste"
 version = "0.0.0"
-source = "git+https://github.com/blukai/haste.git?rev=0fa015ddf428468abfda843fced68557533f5694#0fa015ddf428468abfda843fced68557533f5694"
+source = "git+https://github.com/blukai/haste.git?rev=fbda4a3ec4727687e7097a69bebda9740469fa5a#fbda4a3ec4727687e7097a69bebda9740469fa5a"
 dependencies = [
+ "dungers",
  "dyn-clone",
  "hashbrown",
  "haste_protos",
@@ -136,19 +164,20 @@ dependencies = [
 [[package]]
 name = "haste_protos"
 version = "0.0.0"
-source = "git+https://github.com/blukai/haste.git?rev=0fa015ddf428468abfda843fced68557533f5694#0fa015ddf428468abfda843fced68557533f5694"
+source = "git+https://github.com/blukai/haste.git?rev=fbda4a3ec4727687e7097a69bebda9740469fa5a#fbda4a3ec4727687e7097a69bebda9740469fa5a"
 dependencies = [
  "prost",
  "prost-build",
  "protobuf-src",
+ "which",
 ]
 
 [[package]]
 name = "haste_vartype"
 version = "0.0.0"
-source = "git+https://github.com/blukai/haste.git?rev=0fa015ddf428468abfda843fced68557533f5694#0fa015ddf428468abfda843fced68557533f5694"
+source = "git+https://github.com/blukai/haste.git?rev=fbda4a3ec4727687e7097a69bebda9740469fa5a#fbda4a3ec4727687e7097a69bebda9740469fa5a"
 dependencies = [
- "dungers_charsor",
+ "dungers",
  "thiserror",
 ]
 
@@ -157,6 +186,15 @@ name = "heck"
 version = "0.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2304e00983f87ffb38b55b444b5e3b60a884b5d30c0fca7d82fe33449bbe55ea"
+
+[[package]]
+name = "home"
+version = "0.5.9"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e3d1354bf6b7235cb4a0576c2619fd4ed18183f689b12b006a0ee7329eeff9a5"
+dependencies = [
+ "windows-sys 0.52.0",
+]
 
 [[package]]
 name = "indexmap"
@@ -479,6 +517,18 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c62a0a307cb4a311d3a07867860911ca130c3494e8c2719593806c08bc5d0484"
 
 [[package]]
+name = "which"
+version = "6.0.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b4ee928febd44d98f2f459a4a79bd4d928591333a494a10a868418ac1b39cf1f"
+dependencies = [
+ "either",
+ "home",
+ "rustix",
+ "winsafe",
+]
+
+[[package]]
 name = "windows-sys"
 version = "0.52.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -559,3 +609,9 @@ name = "windows_x86_64_msvc"
 version = "0.52.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "589f6da84c646204747d1270a2a5661ea66ed1cced2631d546fdfb155959f9ec"
+
+[[package]]
+name = "winsafe"
+version = "0.0.19"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d135d17ab770252ad95e9a872d365cf3090e3be864a34ab46f48555993efc904"

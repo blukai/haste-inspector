@@ -147,6 +147,23 @@ function passArrayJsValueToWasm0(array, malloc) {
     WASM_VECTOR_LEN = array.length;
     return ptr;
 }
+/**
+* @param {number} handle
+* @returns {boolean}
+*/
+export function isHandleValid(handle) {
+    const ret = wasm.isHandleValid(handle);
+    return ret !== 0;
+}
+
+/**
+* @param {number} handle
+* @returns {number}
+*/
+export function handleToIndex(handle) {
+    const ret = wasm.handleToIndex(handle);
+    return ret >>> 0;
+}
 
 const EntityFieldLiFinalization = (typeof FinalizationRegistry === 'undefined')
     ? { register: () => {}, unregister: () => {} }
@@ -533,12 +550,12 @@ function __wbg_get_imports() {
         const ret = new Error(getStringFromWasm0(arg0, arg1));
         return addHeapObject(ret);
     };
-    imports.wbg.__wbg_entityfieldli_new = function(arg0) {
-        const ret = EntityFieldLi.__wrap(arg0);
-        return addHeapObject(ret);
-    };
     imports.wbg.__wbg_entityli_new = function(arg0) {
         const ret = EntityLi.__wrap(arg0);
+        return addHeapObject(ret);
+    };
+    imports.wbg.__wbg_entityfieldli_new = function(arg0) {
+        const ret = EntityFieldLi.__wrap(arg0);
         return addHeapObject(ret);
     };
     imports.wbg.__wbindgen_string_new = function(arg0, arg1) {

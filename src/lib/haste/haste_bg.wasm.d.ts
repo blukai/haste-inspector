@@ -23,6 +23,8 @@ export function wrappedparser_totalTicks(a: number, b: number): void;
 export function wrappedparser_runToTick(a: number, b: number, c: number): void;
 export function wrappedparser_listEntities(a: number, b: number): void;
 export function wrappedparser_listEntityFields(a: number, b: number, c: number): void;
+export function isHandleValid(a: number): number;
+export function handleToIndex(a: number): number;
 export function __wbg_set_entityli_name(a: number, b: number, c: number): void;
 export function __wbindgen_malloc(a: number, b: number): number;
 export function __wbindgen_realloc(a: number, b: number, c: number, d: number): number;

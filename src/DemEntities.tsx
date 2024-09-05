@@ -1,7 +1,7 @@
 import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { useAtom } from "jotai";
-import { CheckIcon, CogIcon } from "lucide-react";
+import { CheckIcon, CogIcon, Link2Icon, Link2OffIcon } from "lucide-react";
 import { useCallback, useMemo, useRef, useState, useTransition } from "react";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import DemFilterBar, { type UpdateEventHandler } from "./DemFilterBar";
@@ -13,7 +13,7 @@ import {
 import { Button } from "./lib/Button";
 import { ScrollArea } from "./lib/ScrollArea";
 import { Tooltip } from "./lib/Tooltip";
-import { type EntityLi } from "./lib/haste";
+import { type EntityLi, handleToIndex, isHandleValid } from "./lib/haste";
 import { cn } from "./lib/style";
 
 const LI_HEIGHT = 26;
@@ -56,7 +56,7 @@ function EntityList() {
   );
   const handleClick = useCallback(
     (ev: React.MouseEvent<HTMLLIElement>) => {
-      const entityIndex = +ev.currentTarget.dataset.ei!;
+      const entityIndex = +ev.currentTarget.dataset.entidx!;
       if (entityIndex >= 0 && entityIndex <= Number.MAX_SAFE_INTEGER) {
         setDemSelectedEntityIndex((prevEntityIndex) =>
           prevEntityIndex === entityIndex ? undefined : entityIndex,
@@ -89,14 +89,14 @@ function EntityList() {
               <li
                 key={virtualItem.key}
                 className={cn(
-                  "absolute top-0 left-0 w-full px-2 flex items-center cursor-pointer text-fg-subtle hover:bg-neutral-500/30",
-                  entitySelected && "bg-neutral-500/30 text-fg",
+                  "absolute top-0 left-0 w-full px-2 flex items-center cursor-pointer text-fg-subtle hover:bg-neutral-500/40",
+                  entitySelected && "bg-neutral-500/60 text-fg",
                 )}
                 style={{
                   height: `${virtualItem.size}px`,
                   transform: `translateY(${virtualItem.start}px)`,
                 }}
-                data-ei={entityItem?.index}
+                data-entidx={entityItem?.index}
                 onClick={handleClick}
               >
                 <span className="text-ellipsis overflow-hidden whitespace-nowrap">
@@ -146,7 +146,7 @@ function EntityFieldListPreferences(props: EntityFieldListPreferencesProps) {
           <DropdownMenuPrimitive.CheckboxItem
             checked={showTypeInfo}
             onCheckedChange={setShowTypeInfo}
-            className="flex items-center hover:bg-neutral-500/30 rounded px-2 py-0.5 gap-x-2 cursor-pointer"
+            className="flex items-center hover:bg-neutral-500/40 rounded px-2 py-0.5 gap-x-2 cursor-pointer"
           >
             <DropdownMenuPrimitive.ItemIndicator>
               <CheckIcon className="size-4" />
@@ -223,6 +223,19 @@ function EntityFieldList() {
 
   const [showTypeInfo, setShowTypeInfo] = useState(DEFAULT_SHOW_TYPE_INFO);
 
+  const [, setDemSelectedEntityIndex] = useAtom(demSelectedEntityIndexAtom);
+  const handleClick = useCallback(
+    (ev: React.MouseEvent<HTMLLIElement>) => {
+      const entityIndex = +ev.currentTarget.dataset.entidx!;
+      if (entityIndex >= 0 && entityIndex <= Number.MAX_SAFE_INTEGER) {
+        setDemSelectedEntityIndex((prevEntityIndex) =>
+          prevEntityIndex === entityIndex ? undefined : entityIndex,
+        );
+      }
+    },
+    [setDemSelectedEntityIndex],
+  );
+
   return (
     <div className="w-full h-full flex flex-col">
       <DemFilterBar
@@ -258,18 +271,30 @@ function EntityFieldList() {
         >
           {virtualizer.getVirtualItems().map((virtualItem) => {
             const entityFieldItem = filteredEntityFieldList![virtualItem.index];
+
+            const handle =
+              entityFieldItem.inner.encodedAs.startsWith("CHandle");
+            const handleValid =
+              handle && isHandleValid(+entityFieldItem.inner.value);
+            const linkedEntIdx = handleValid
+              ? handleToIndex(+entityFieldItem.inner.value)
+              : null;
+
             return (
               <li
                 key={virtualItem.key}
                 className={cn(
-                  "absolute top-0 left-0 w-full px-2 flex items-center cursor-pointer hover:bg-neutral-500/30",
+                  "absolute top-0 left-0 w-full px-2 flex items-center hover:bg-neutral-500/20",
+                  handleValid && "cursor-pointer hover:bg-neutral-500/40",
                 )}
                 style={{
                   height: `${virtualItem.size}px`,
                   transform: `translateY(${virtualItem.start}px)`,
                 }}
+                data-entidx={linkedEntIdx}
+                onClick={handleClick}
               >
-                <span className="whitespace-nowrap gap-x-[1ch] flex">
+                <span className="whitespace-nowrap gap-x-[1ch] flex items-center">
                   <span className="text-fg-subtle">
                     {entityFieldItem.joinedNamedPath}
                   </span>
@@ -286,6 +311,16 @@ function EntityFieldList() {
                     </>
                   )}
                   <span>{entityFieldItem.inner.value}</span>
+                  {handle &&
+                    (handleValid ? (
+                      <Tooltip content="click to navigate to the linked entity">
+                        <Link2Icon className="size-4" />
+                      </Tooltip>
+                    ) : (
+                      <Tooltip content="this handle is invalid">
+                        <Link2OffIcon className="size-4 text-fg-subtle" />
+                      </Tooltip>
+                    ))}
                 </span>
               </li>
             );

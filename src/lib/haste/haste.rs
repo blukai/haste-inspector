@@ -6,6 +6,7 @@
 // - https://stackoverflow.com/questions/65332927/is-it-possible-to-wasm-bindgen-public-structs-and-functions-defined-in-anothe
 
 use haste::{
+    entities,
     fieldpath::FieldPath,
     fieldvalue::FieldValue,
     flattenedserializers::FlattenedSerializer,
@@ -119,7 +120,7 @@ fn get_value_info(serializer: &FlattenedSerializer, fp: &FieldPath) -> (Vec<Stri
     result.push(field.var_name.str.to_string());
 
     for field_index in fp.iter().skip(1) {
-        if field.is_vector() {
+        if field.is_dynamic_array() {
             field = field.get_child(0).unwrap_throw();
             result.push(field_index.to_string());
         } else {
@@ -156,4 +157,14 @@ fn get_field_value_discriminant_name(field_value: &FieldValue) -> &'static str {
 
         FieldValue::String(_) => "String",
     }
+}
+
+#[wasm_bindgen(js_name = "isHandleValid")]
+pub fn is_handle_valid(handle: u32) -> bool {
+    entities::is_handle_valid(handle)
+}
+
+#[wasm_bindgen(js_name = "handleToIndex")]
+pub fn handle_to_index(handle: u32) -> usize {
+    entities::handle_to_index(handle)
 }

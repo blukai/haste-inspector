@@ -1,6 +1,16 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
+* @param {number} handle
+* @returns {boolean}
+*/
+export function isHandleValid(handle: number): boolean;
+/**
+* @param {number} handle
+* @returns {number}
+*/
+export function handleToIndex(handle: number): number;
+/**
 */
 export class EntityFieldLi {
   free(): void;
@@ -88,6 +98,8 @@ export interface InitOutput {
   readonly wrappedparser_runToTick: (a: number, b: number, c: number) => void;
   readonly wrappedparser_listEntities: (a: number, b: number) => void;
   readonly wrappedparser_listEntityFields: (a: number, b: number, c: number) => void;
+  readonly isHandleValid: (a: number) => number;
+  readonly handleToIndex: (a: number) => number;
   readonly __wbg_set_entityli_name: (a: number, b: number, c: number) => void;
   readonly __wbindgen_malloc: (a: number, b: number) => number;
   readonly __wbindgen_realloc: (a: number, b: number, c: number, d: number) => number;

@@ -9,7 +9,7 @@
     "build": "tsc && vite build",
     "lint": "bunx @biomejs/biome lint . --apply",
     "format": "bunx @biomejs/biome format . --write",
-    "build-haste": "wasm-pack build --target web --out-dir src/lib/haste --out-name haste -- --verbose && rm src/lib/haste/package.json && rm src/lib/haste/.gitignore"
+    "build:haste": "wasm-pack build --target web --out-dir src/lib/haste --out-name haste -- --verbose && rm src/lib/haste/package.json && rm src/lib/haste/.gitignore"
   },
   "dependencies": {
     "@fontsource/jetbrains-mono": "^5.0.18",
