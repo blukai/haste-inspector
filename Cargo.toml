@@ -1,10 +1,11 @@
 [package]
-name = "haste"
+name = "haste-inspector"
 version = "0.0.0"
 edition = "2021"
 
 [dependencies]
-haste = { git = "https://github.com/blukai/haste.git", rev = "fbda4a3ec4727687e7097a69bebda9740469fa5a", package = "haste", features = ["preserve-metadata"] }
+# NOCOMMIT
+haste = { git = "https://github.com/blukai/haste.git", rev = "74710f8fc7bc5d76fc7350455249bacce9c72e93", package = "haste", features = ["preserve-metadata"] }
 wasm-bindgen = "0.2"
 
 [lib]

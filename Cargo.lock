@@ -140,15 +140,7 @@ checksum = "e5274423e17b7c9fc20b6e7e208532f9b19825d82dfd615708b70edd83df41f1"
 [[package]]
 name = "haste"
 version = "0.0.0"
-dependencies = [
- "haste 0.0.0 (git+https://github.com/blukai/haste.git?rev=fbda4a3ec4727687e7097a69bebda9740469fa5a)",
- "wasm-bindgen",
-]
-
-[[package]]
-name = "haste"
-version = "0.0.0"
-source = "git+https://github.com/blukai/haste.git?rev=fbda4a3ec4727687e7097a69bebda9740469fa5a#fbda4a3ec4727687e7097a69bebda9740469fa5a"
+source = "git+https://github.com/blukai/haste.git?rev=74710f8fc7bc5d76fc7350455249bacce9c72e93#74710f8fc7bc5d76fc7350455249bacce9c72e93"
 dependencies = [
  "dungers",
  "dyn-clone",
@@ -162,9 +154,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "haste-inspector"
+version = "0.0.0"
+dependencies = [
+ "haste",
+ "wasm-bindgen",
+]
+
+[[package]]
 name = "haste_protos"
 version = "0.0.0"
-source = "git+https://github.com/blukai/haste.git?rev=fbda4a3ec4727687e7097a69bebda9740469fa5a#fbda4a3ec4727687e7097a69bebda9740469fa5a"
+source = "git+https://github.com/blukai/haste.git?rev=74710f8fc7bc5d76fc7350455249bacce9c72e93#74710f8fc7bc5d76fc7350455249bacce9c72e93"
 dependencies = [
  "prost",
  "prost-build",
@@ -175,7 +175,7 @@ dependencies = [
 [[package]]
 name = "haste_vartype"
 version = "0.0.0"
-source = "git+https://github.com/blukai/haste.git?rev=fbda4a3ec4727687e7097a69bebda9740469fa5a#fbda4a3ec4727687e7097a69bebda9740469fa5a"
+source = "git+https://github.com/blukai/haste.git?rev=74710f8fc7bc5d76fc7350455249bacce9c72e93#74710f8fc7bc5d76fc7350455249bacce9c72e93"
 dependencies = [
  "dungers",
  "thiserror",
