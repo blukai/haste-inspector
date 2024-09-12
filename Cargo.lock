@@ -62,7 +62,7 @@ dependencies = [
 [[package]]
 name = "dungers"
 version = "0.0.0"
-source = "git+https://github.com/blukai/dungers.git?rev=c3b56109c14e9c52797860cfd348adda04e5c2a4#c3b56109c14e9c52797860cfd348adda04e5c2a4"
+source = "git+https://github.com/blukai/dungers.git?rev=b6c2d52d989db66171d74a579fcfc0a5d921cc41#b6c2d52d989db66171d74a579fcfc0a5d921cc41"
 dependencies = [
  "dungers_bitbuf",
  "dungers_charsor",
@@ -72,7 +72,7 @@ dependencies = [
 [[package]]
 name = "dungers_bitbuf"
 version = "0.0.0"
-source = "git+https://github.com/blukai/dungers.git?rev=c3b56109c14e9c52797860cfd348adda04e5c2a4#c3b56109c14e9c52797860cfd348adda04e5c2a4"
+source = "git+https://github.com/blukai/dungers.git?rev=b6c2d52d989db66171d74a579fcfc0a5d921cc41#b6c2d52d989db66171d74a579fcfc0a5d921cc41"
 dependencies = [
  "dungers_varint",
  "thiserror",
@@ -81,12 +81,12 @@ dependencies = [
 [[package]]
 name = "dungers_charsor"
 version = "0.0.0"
-source = "git+https://github.com/blukai/dungers.git?rev=c3b56109c14e9c52797860cfd348adda04e5c2a4#c3b56109c14e9c52797860cfd348adda04e5c2a4"
+source = "git+https://github.com/blukai/dungers.git?rev=b6c2d52d989db66171d74a579fcfc0a5d921cc41#b6c2d52d989db66171d74a579fcfc0a5d921cc41"
 
 [[package]]
 name = "dungers_varint"
 version = "0.0.0"
-source = "git+https://github.com/blukai/dungers.git?rev=c3b56109c14e9c52797860cfd348adda04e5c2a4#c3b56109c14e9c52797860cfd348adda04e5c2a4"
+source = "git+https://github.com/blukai/dungers.git?rev=b6c2d52d989db66171d74a579fcfc0a5d921cc41#b6c2d52d989db66171d74a579fcfc0a5d921cc41"
 dependencies = [
  "thiserror",
 ]
@@ -140,17 +140,9 @@ checksum = "e5274423e17b7c9fc20b6e7e208532f9b19825d82dfd615708b70edd83df41f1"
 [[package]]
 name = "haste"
 version = "0.0.0"
-source = "git+https://github.com/blukai/haste.git?rev=74710f8fc7bc5d76fc7350455249bacce9c72e93#74710f8fc7bc5d76fc7350455249bacce9c72e93"
+source = "git+https://github.com/blukai/haste.git?rev=7cb4e452e960834f02122084978ab30216ca2a23#7cb4e452e960834f02122084978ab30216ca2a23"
 dependencies = [
- "dungers",
- "dyn-clone",
- "hashbrown",
- "haste_protos",
- "haste_vartype",
- "nohash",
- "prost",
- "snap",
- "thiserror",
+ "haste_core",
 ]
 
 [[package]]
@@ -162,9 +154,26 @@ dependencies = [
 ]
 
 [[package]]
+name = "haste_core"
+version = "0.0.0"
+source = "git+https://github.com/blukai/haste.git?rev=7cb4e452e960834f02122084978ab30216ca2a23#7cb4e452e960834f02122084978ab30216ca2a23"
+dependencies = [
+ "dungers",
+ "dyn-clone",
+ "hashbrown",
+ "haste_protos",
+ "haste_vartype",
+ "lazy_static",
+ "nohash",
+ "prost",
+ "snap",
+ "thiserror",
+]
+
+[[package]]
 name = "haste_protos"
 version = "0.0.0"
-source = "git+https://github.com/blukai/haste.git?rev=74710f8fc7bc5d76fc7350455249bacce9c72e93#74710f8fc7bc5d76fc7350455249bacce9c72e93"
+source = "git+https://github.com/blukai/haste.git?rev=7cb4e452e960834f02122084978ab30216ca2a23#7cb4e452e960834f02122084978ab30216ca2a23"
 dependencies = [
  "prost",
  "prost-build",
@@ -175,7 +184,7 @@ dependencies = [
 [[package]]
 name = "haste_vartype"
 version = "0.0.0"
-source = "git+https://github.com/blukai/haste.git?rev=74710f8fc7bc5d76fc7350455249bacce9c72e93#74710f8fc7bc5d76fc7350455249bacce9c72e93"
+source = "git+https://github.com/blukai/haste.git?rev=7cb4e452e960834f02122084978ab30216ca2a23#7cb4e452e960834f02122084978ab30216ca2a23"
 dependencies = [
  "dungers",
  "thiserror",
@@ -214,6 +223,12 @@ checksum = "413ee7dfc52ee1a4949ceeb7dbc8a33f2d6c088194d9f922fb8318faf1f01186"
 dependencies = [
  "either",
 ]
+
+[[package]]
+name = "lazy_static"
+version = "1.5.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "bbd2bcb4c963f2ddae06a2efc7e9f3591312473c50c6685e1f298068316e66fe"
 
 [[package]]
 name = "libc"

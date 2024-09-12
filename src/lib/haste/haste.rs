@@ -73,7 +73,7 @@ impl WrappedParser {
                 .iter()
                 .map(|(index, entity)| EntityLi {
                     index: *index,
-                    name: entity.get_serializer().serializer_name.str.to_string(),
+                    name: entity.serializer().serializer_name.str.to_string(),
                 })
                 .collect()
         })
@@ -92,7 +92,7 @@ impl WrappedParser {
                             // was returned it means that it exists thus path
                             // exists
                             .unwrap_throw();
-                        let (named_path, var_type) = get_value_info(entity.get_serializer(), fp);
+                        let (named_path, var_type) = get_value_info(entity.serializer(), fp);
 
                         EntityFieldLi {
                             path: fp.iter().cloned().collect(),
@@ -120,7 +120,7 @@ fn get_value_info(serializer: &FlattenedSerializer, fp: &FieldPath) -> (Vec<Stri
     result.push(field.var_name.str.to_string());
 
     for field_index in fp.iter().skip(1) {
-        if field.is_dynamic_array() {
+        if field.is_fixed_or_dynamic_array() {
             field = field.get_child(0).unwrap_throw();
             result.push(field_index.to_string());
         } else {
