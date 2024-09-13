@@ -17,7 +17,83 @@ import { type EntityLi, handleToIndex, isHandleValid } from "./lib/haste";
 import { cn } from "./lib/style";
 
 const LI_HEIGHT = 26;
-const DEFAULT_SHOW_TYPE_INFO = true;
+
+const DEFAULT_SHOW_ENTITY_INDEX = false;
+
+const DEFAULT_SHOW_FIELD_ENCODED_TYPE = true;
+const DEFAULT_SHOW_FIELD_DECODED_TYPE = false;
+const DEFAULT_SHOW_FIELD_PATH = false;
+
+type DropdownMenuCheckboxItemProps = Pick<
+  DropdownMenuPrimitive.DropdownMenuCheckboxItemProps,
+  "checked" | "onCheckedChange"
+> & {
+  label: React.ReactNode;
+};
+
+function DropdownMenuCheckboxItem(props: DropdownMenuCheckboxItemProps) {
+  const { checked, onCheckedChange, label } = props;
+
+  return (
+    <DropdownMenuPrimitive.CheckboxItem
+      checked={checked}
+      onCheckedChange={onCheckedChange}
+      className="flex items-center hover:bg-neutral-500/40 rounded px-2 py-0.5 gap-x-2 cursor-pointer"
+    >
+      <DropdownMenuPrimitive.ItemIndicator forceMount>
+        <CheckIcon className={cn("size-4", !checked && "invisible")} />
+      </DropdownMenuPrimitive.ItemIndicator>
+      {label}
+    </DropdownMenuPrimitive.CheckboxItem>
+  );
+}
+
+type EntityListPreferencesProps = {
+  showEntityIndex: boolean;
+  setShowEntityIndex: (value: boolean) => void;
+};
+
+// NOTE: keep this in sync with EntityFieldListPreferences
+function EntityListPreferences(props: EntityListPreferencesProps) {
+  const {
+    showEntityIndex,
+    setShowEntityIndex,
+  } = props;
+
+  const [open, setOpen] = useState(false);
+
+  const active = open;
+
+  return (
+    <DropdownMenuPrimitive.Root open={open} onOpenChange={setOpen}>
+      <DropdownMenuPrimitive.Trigger asChild>
+        <span className="inline-flex">
+          <Tooltip content="display preferences">
+            <Button size="small" className={cn(active && "bg-neutral-500/30")}>
+              <CogIcon
+                className={cn("size-4", !active && "stroke-fg-subtle")}
+              />
+            </Button>
+          </Tooltip>
+        </span>
+      </DropdownMenuPrimitive.Trigger>
+      <DropdownMenuPrimitive.Portal>
+        <DropdownMenuPrimitive.Content
+          align="end"
+          sideOffset={8}
+          // NOTE: following classes are stolen from tooltip
+          className="bg-white dark:bg-black rounded z-10"
+        >
+          <DropdownMenuCheckboxItem
+            checked={showEntityIndex}
+            onCheckedChange={setShowEntityIndex}
+            label="entity index"
+          />
+        </DropdownMenuPrimitive.Content>
+      </DropdownMenuPrimitive.Portal>
+    </DropdownMenuPrimitive.Root>
+  );
+}
 
 function EntityList() {
   const [demParser] = useAtom(demParserAtom);
@@ -66,12 +142,23 @@ function EntityList() {
     [setDemSelectedEntityIndex],
   );
 
+  const [showEntityIndex, setShowEntityIndex] = useState(DEFAULT_SHOW_ENTITY_INDEX);
+
   return (
     <div className="w-full h-full flex flex-col">
       <DemFilterBar
         entries={entityList}
         onUpdate={handleFilterUpdate}
         placehoder="filter entities…"
+        endAdornment={
+          <>
+            <div className="w-px h-4 bg-divider" />
+            <EntityListPreferences
+              showEntityIndex={showEntityIndex}
+              setShowEntityIndex={setShowEntityIndex}
+            />
+          </>
+        }
         className="border-b border-divider"
       />
       {!entityList?.length && (
@@ -99,8 +186,16 @@ function EntityList() {
                 data-entidx={entityItem?.index}
                 onClick={handleClick}
               >
+                {showEntityIndex && (
+                  <span
+                    className="text-fg-subtle opacity-40 text-end mr-2"
+                    style={{ minWidth: "4ch" }}
+                  >
+                    {entityItem.index}
+                  </span>
+                )}
                 <span className="text-ellipsis overflow-hidden whitespace-nowrap">
-                  {entityItem?.name}
+                  {entityItem.name}
                 </span>
               </li>
             );
@@ -112,16 +207,28 @@ function EntityList() {
 }
 
 type EntityFieldListPreferencesProps = {
-  showTypeInfo: boolean;
-  setShowTypeInfo: (value: boolean) => void;
+  showFieldPath: boolean;
+  setShowFieldPath: (value: boolean) => void;
+  showFieldEncodedType: boolean;
+  setShowFieldEncodedType: (value: boolean) => void;
+  showFieldDecodedType: boolean;
+  setShowFieldDecodedType: (value: boolean) => void;
 };
 
+// NOTE: keep this in sync with EntityListPreferences
 function EntityFieldListPreferences(props: EntityFieldListPreferencesProps) {
-  const { showTypeInfo, setShowTypeInfo } = props;
+  const {
+    showFieldPath,
+    setShowFieldPath,
+    showFieldEncodedType,
+    setShowFieldEncodedType,
+    showFieldDecodedType,
+    setShowFieldDecodedType,
+  } = props;
 
   const [open, setOpen] = useState(false);
 
-  const active = open || showTypeInfo;
+  const active = open;
 
   return (
     <DropdownMenuPrimitive.Root open={open} onOpenChange={setOpen}>
@@ -140,19 +247,24 @@ function EntityFieldListPreferences(props: EntityFieldListPreferencesProps) {
         <DropdownMenuPrimitive.Content
           align="end"
           sideOffset={8}
-          // NOTE: following classes are stole from tooltip
+          // NOTE: following classes are stolen from tooltip
           className="bg-white dark:bg-black rounded z-10"
         >
-          <DropdownMenuPrimitive.CheckboxItem
-            checked={showTypeInfo}
-            onCheckedChange={setShowTypeInfo}
-            className="flex items-center hover:bg-neutral-500/40 rounded px-2 py-0.5 gap-x-2 cursor-pointer"
-          >
-            <DropdownMenuPrimitive.ItemIndicator>
-              <CheckIcon className="size-4" />
-            </DropdownMenuPrimitive.ItemIndicator>
-            show type info
-          </DropdownMenuPrimitive.CheckboxItem>
+          <DropdownMenuCheckboxItem
+            checked={showFieldPath}
+            onCheckedChange={setShowFieldPath}
+            label="field path"
+          />
+          <DropdownMenuCheckboxItem
+            checked={showFieldEncodedType}
+            onCheckedChange={setShowFieldEncodedType}
+            label="encoded type"
+          />
+          <DropdownMenuCheckboxItem
+            checked={showFieldDecodedType}
+            onCheckedChange={setShowFieldDecodedType}
+            label="decoded type"
+          />
         </DropdownMenuPrimitive.Content>
       </DropdownMenuPrimitive.Portal>
     </DropdownMenuPrimitive.Root>
@@ -163,21 +275,31 @@ function EntityFieldList() {
   const [demParser] = useAtom(demParserAtom);
   const [demTick] = useAtom(demTickAtom);
   const [demSelectedEntityIndex] = useAtom(demSelectedEntityIndexAtom);
-  const entityFieldList = useMemo(() => {
+
+  const { entityFieldList, joinedPathMaxLen } = useMemo(() => {
     demTick; // trick eslint
 
     if (demSelectedEntityIndex === undefined) {
-      return undefined;
+      return {};
     }
 
-    const efl = demParser
-      ?.listEntityFields(demSelectedEntityIndex)
-      ?.map((entityField) => ({
-        inner: entityField,
-        joinedNamedPath: entityField.namedPath.join("."),
-      }));
+    let joinedPathMaxLen = 0;
 
-    efl?.sort((a, b) => {
+    const entityFieldList = demParser
+      ?.listEntityFields(demSelectedEntityIndex)
+      ?.map((entityField) => {
+        const joinedPath = Array.from(entityField.path)
+          .map((part) => part.toString().padStart(4, " "))
+          .join("");
+        joinedPathMaxLen = Math.max(joinedPathMaxLen, joinedPath.length);
+        return {
+          inner: entityField,
+          joinedPath,
+          joinedNamedPath: entityField.namedPath.join("."),
+        };
+      });
+
+    entityFieldList?.sort((a, b) => {
       // compare path arrays element by element
       for (
         let i = 0;
@@ -193,7 +315,7 @@ function EntityFieldList() {
       return a.inner.path.length - b.inner.path.length;
     });
 
-    return efl;
+    return { entityFieldList, joinedPathMaxLen };
   }, [demSelectedEntityIndex, demParser, demTick]);
 
   type WrappedEntityFieldLi = NonNullable<typeof entityFieldList>[0];
@@ -221,7 +343,13 @@ function EntityFieldList() {
     estimateSize: () => LI_HEIGHT,
   });
 
-  const [showTypeInfo, setShowTypeInfo] = useState(DEFAULT_SHOW_TYPE_INFO);
+  const [showFieldEncodedType, setShowFieldEncodedType] = useState(
+    DEFAULT_SHOW_FIELD_ENCODED_TYPE,
+  );
+  const [showFieldDecodedType, setShowFieldDecodedType] = useState(
+    DEFAULT_SHOW_FIELD_DECODED_TYPE,
+  );
+  const [showFieldPath, setShowFieldPath] = useState(DEFAULT_SHOW_FIELD_PATH);
 
   const [, setDemSelectedEntityIndex] = useAtom(demSelectedEntityIndexAtom);
   const handleClick = useCallback(
@@ -247,8 +375,12 @@ function EntityFieldList() {
           <>
             <div className="w-px h-4 bg-divider" />
             <EntityFieldListPreferences
-              showTypeInfo={showTypeInfo}
-              setShowTypeInfo={setShowTypeInfo}
+              showFieldEncodedType={showFieldEncodedType}
+              setShowFieldEncodedType={setShowFieldEncodedType}
+              showFieldDecodedType={showFieldDecodedType}
+              setShowFieldDecodedType={setShowFieldDecodedType}
+              showFieldPath={showFieldPath}
+              setShowFieldPath={setShowFieldPath}
             />
           </>
         }
@@ -295,19 +427,35 @@ function EntityFieldList() {
                 onClick={handleClick}
               >
                 <span className="whitespace-nowrap gap-x-[1ch] flex items-center">
+                  {showFieldPath && (
+                    <span
+                      className="text-fg-subtle opacity-40 whitespace-pre mr-2"
+                      style={{ width: `${joinedPathMaxLen}ch` }}
+                    >
+                      {entityFieldItem.joinedPath}
+                    </span>
+                  )}
                   <span className="text-fg-subtle">
                     {entityFieldItem.joinedNamedPath}
                   </span>
                   <span className="text-fg-subtle opacity-40 -ml-2">:</span>
-                  {showTypeInfo && (
+                  {(showFieldEncodedType || showFieldDecodedType) && (
                     <>
-                      <span className="text-fg-subtle opacity-40">
-                        {entityFieldItem.inner.encodedAs}
-                      </span>
-                      <span className="text-fg-subtle opacity-40">{"->"}</span>
-                      <span className="text-fg-subtle opacity-40">
-                        {entityFieldItem.inner.decodedAs}
-                      </span>
+                      {showFieldEncodedType && (
+                        <span className="text-fg-subtle opacity-40">
+                          {entityFieldItem.inner.encodedAs || "_"}
+                        </span>
+                      )}
+                      {showFieldEncodedType && showFieldDecodedType && (
+                        <span className="text-fg-subtle opacity-40">
+                          {"->"}
+                        </span>
+                      )}
+                      {showFieldDecodedType && (
+                        <span className="text-fg-subtle opacity-40">
+                          {entityFieldItem.inner.decodedAs}
+                        </span>
+                      )}
                     </>
                   )}
                   <span>{entityFieldItem.inner.value}</span>
