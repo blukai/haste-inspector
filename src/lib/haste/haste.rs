@@ -120,7 +120,7 @@ fn get_value_info(serializer: &FlattenedSerializer, fp: &FieldPath) -> (Vec<Stri
     result.push(field.var_name.str.to_string());
 
     for field_index in fp.iter().skip(1) {
-        if field.is_fixed_or_dynamic_array() {
+        if field.is_dynamic_array() {
             field = field.get_child(0).unwrap_throw();
             result.push(field_index.to_string());
         } else {
@@ -137,24 +137,14 @@ fn get_value_info(serializer: &FlattenedSerializer, fp: &FieldPath) -> (Vec<Stri
 
 fn get_field_value_discriminant_name(field_value: &FieldValue) -> &'static str {
     match field_value {
-        FieldValue::I8(_) => "I8",
-        FieldValue::I16(_) => "I16",
-        FieldValue::I32(_) => "I32",
         FieldValue::I64(_) => "I64",
-
-        FieldValue::U8(_) => "U8",
-        FieldValue::U16(_) => "U16",
-        FieldValue::U32(_) => "U32",
         FieldValue::U64(_) => "U64",
-
-        FieldValue::Bool(_) => "Bool",
         FieldValue::F32(_) => "F32",
-
-        FieldValue::Vector(_) => "Vector",
-        FieldValue::Vector2D(_) => "Vector2D",
-        FieldValue::Vector4D(_) => "Vector4D",
+        FieldValue::Bool(_) => "Bool",
+        FieldValue::Vector3(_) => "Vector3",
+        FieldValue::Vector2(_) => "Vector2",
+        FieldValue::Vector4(_) => "Vector4",
         FieldValue::QAngle(_) => "QAngle",
-
         FieldValue::String(_) => "String",
     }
 }

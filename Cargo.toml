@@ -4,7 +4,7 @@ version = "0.0.0"
 edition = "2021"
 
 [dependencies]
-haste = { git = "https://github.com/blukai/haste.git", rev = "7cb4e452e960834f02122084978ab30216ca2a23", features = ["preserve-metadata"] }
+haste = { git = "https://github.com/blukai/haste.git", rev = "7a2bdf91d4ebea8fa0056900c1319964855206f1", features = ["preserve-metadata"] }
 wasm-bindgen = "0.2"
 
 [lib]
