@@ -41,3 +41,25 @@
     display: flex;
   }
 }
+
+@layer components {
+  .haste-li {
+    @apply w-full px-2 text-fg-subtle hover:bg-neutral-500/20 text-fg-subtle;
+  }
+
+  .haste-li__virtual {
+    @apply absolute top-0 left-0;
+  }
+
+  .haste-li__selectable {
+    @apply hover:bg-neutral-500/40 cursor-pointer;
+  }
+
+  .haste-li__selected {
+    @apply bg-neutral-500/60 text-fg;
+  }
+
+  .haste-panel-resize-handle {
+    @apply w-px h-full bg-divider data-[resize-handle-state=hover]:bg-current data-[resize-handle-state=drag]:bg-current;
+  }
+}

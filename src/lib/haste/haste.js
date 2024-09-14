@@ -390,6 +390,143 @@ export class EntityLi {
     }
 }
 
+const StringTableItemLiFinalization = (typeof FinalizationRegistry === 'undefined')
+    ? { register: () => {}, unregister: () => {} }
+    : new FinalizationRegistry(ptr => wasm.__wbg_stringtableitemli_free(ptr >>> 0, 1));
+/**
+*/
+export class StringTableItemLi {
+
+    static __wrap(ptr) {
+        ptr = ptr >>> 0;
+        const obj = Object.create(StringTableItemLi.prototype);
+        obj.__wbg_ptr = ptr;
+        StringTableItemLiFinalization.register(obj, obj.__wbg_ptr, obj);
+        return obj;
+    }
+
+    __destroy_into_raw() {
+        const ptr = this.__wbg_ptr;
+        this.__wbg_ptr = 0;
+        StringTableItemLiFinalization.unregister(this);
+        return ptr;
+    }
+
+    free() {
+        const ptr = this.__destroy_into_raw();
+        wasm.__wbg_stringtableitemli_free(ptr, 0);
+    }
+    /**
+    * @returns {Uint8Array | undefined}
+    */
+    get string() {
+        try {
+            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            wasm.__wbg_get_stringtableitemli_string(retptr, this.__wbg_ptr);
+            var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+            var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+            let v1;
+            if (r0 !== 0) {
+                v1 = getArrayU8FromWasm0(r0, r1).slice();
+                wasm.__wbindgen_free(r0, r1 * 1, 1);
+            }
+            return v1;
+        } finally {
+            wasm.__wbindgen_add_to_stack_pointer(16);
+        }
+    }
+    /**
+    * @param {Uint8Array | undefined} [arg0]
+    */
+    set string(arg0) {
+        var ptr0 = isLikeNone(arg0) ? 0 : passArray8ToWasm0(arg0, wasm.__wbindgen_malloc);
+        var len0 = WASM_VECTOR_LEN;
+        wasm.__wbg_set_stringtableitemli_string(this.__wbg_ptr, ptr0, len0);
+    }
+    /**
+    * @returns {Uint8Array | undefined}
+    */
+    get userData() {
+        try {
+            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            wasm.__wbg_get_stringtableitemli_userData(retptr, this.__wbg_ptr);
+            var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+            var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+            let v1;
+            if (r0 !== 0) {
+                v1 = getArrayU8FromWasm0(r0, r1).slice();
+                wasm.__wbindgen_free(r0, r1 * 1, 1);
+            }
+            return v1;
+        } finally {
+            wasm.__wbindgen_add_to_stack_pointer(16);
+        }
+    }
+    /**
+    * @param {Uint8Array | undefined} [arg0]
+    */
+    set userData(arg0) {
+        var ptr0 = isLikeNone(arg0) ? 0 : passArray8ToWasm0(arg0, wasm.__wbindgen_malloc);
+        var len0 = WASM_VECTOR_LEN;
+        wasm.__wbg_set_stringtableitemli_userData(this.__wbg_ptr, ptr0, len0);
+    }
+}
+
+const StringTableLiFinalization = (typeof FinalizationRegistry === 'undefined')
+    ? { register: () => {}, unregister: () => {} }
+    : new FinalizationRegistry(ptr => wasm.__wbg_stringtableli_free(ptr >>> 0, 1));
+/**
+*/
+export class StringTableLi {
+
+    static __wrap(ptr) {
+        ptr = ptr >>> 0;
+        const obj = Object.create(StringTableLi.prototype);
+        obj.__wbg_ptr = ptr;
+        StringTableLiFinalization.register(obj, obj.__wbg_ptr, obj);
+        return obj;
+    }
+
+    __destroy_into_raw() {
+        const ptr = this.__wbg_ptr;
+        this.__wbg_ptr = 0;
+        StringTableLiFinalization.unregister(this);
+        return ptr;
+    }
+
+    free() {
+        const ptr = this.__destroy_into_raw();
+        wasm.__wbg_stringtableli_free(ptr, 0);
+    }
+    /**
+    * @returns {string}
+    */
+    get name() {
+        let deferred1_0;
+        let deferred1_1;
+        try {
+            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            wasm.__wbg_get_entityli_name(retptr, this.__wbg_ptr);
+            var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+            var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+            deferred1_0 = r0;
+            deferred1_1 = r1;
+            return getStringFromWasm0(r0, r1);
+        } finally {
+            wasm.__wbindgen_add_to_stack_pointer(16);
+            wasm.__wbindgen_free(deferred1_0, deferred1_1, 1);
+        }
+    }
+    /**
+    * @param {string} arg0
+    */
+    set name(arg0) {
+        const ptr0 = passStringToWasm0(arg0, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+        const len0 = WASM_VECTOR_LEN;
+        wasm.__wbg_set_entityfieldli_path(this.__wbg_ptr, ptr0, len0);
+    }
+}
+
 const WrappedParserFinalization = (typeof FinalizationRegistry === 'undefined')
     ? { register: () => {}, unregister: () => {} }
     : new FinalizationRegistry(ptr => wasm.__wbg_wrappedparser_free(ptr >>> 0, 1));
@@ -549,6 +686,47 @@ export class WrappedParser {
             wasm.__wbindgen_add_to_stack_pointer(16);
         }
     }
+    /**
+    * @returns {(StringTableLi)[] | undefined}
+    */
+    listStringTables() {
+        try {
+            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            wasm.wrappedparser_listStringTables(retptr, this.__wbg_ptr);
+            var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+            var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+            let v1;
+            if (r0 !== 0) {
+                v1 = getArrayJsValueFromWasm0(r0, r1).slice();
+                wasm.__wbindgen_free(r0, r1 * 4, 4);
+            }
+            return v1;
+        } finally {
+            wasm.__wbindgen_add_to_stack_pointer(16);
+        }
+    }
+    /**
+    * @param {string} string_table_name
+    * @returns {(StringTableItemLi)[] | undefined}
+    */
+    listStringTableItems(string_table_name) {
+        try {
+            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            const ptr0 = passStringToWasm0(string_table_name, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+            const len0 = WASM_VECTOR_LEN;
+            wasm.wrappedparser_listStringTableItems(retptr, this.__wbg_ptr, ptr0, len0);
+            var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+            var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+            let v2;
+            if (r0 !== 0) {
+                v2 = getArrayJsValueFromWasm0(r0, r1).slice();
+                wasm.__wbindgen_free(r0, r1 * 4, 4);
+            }
+            return v2;
+        } finally {
+            wasm.__wbindgen_add_to_stack_pointer(16);
+        }
+    }
 }
 
 async function __wbg_load(module, imports) {
@@ -595,6 +773,14 @@ function __wbg_get_imports() {
     };
     imports.wbg.__wbg_entityli_new = function(arg0) {
         const ret = EntityLi.__wrap(arg0);
+        return addHeapObject(ret);
+    };
+    imports.wbg.__wbg_stringtableitemli_new = function(arg0) {
+        const ret = StringTableItemLi.__wrap(arg0);
+        return addHeapObject(ret);
+    };
+    imports.wbg.__wbg_stringtableli_new = function(arg0) {
+        const ret = StringTableLi.__wrap(arg0);
         return addHeapObject(ret);
     };
     imports.wbg.__wbindgen_string_new = function(arg0, arg1) {

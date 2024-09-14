@@ -23,6 +23,6 @@
     "indentStyle": "space"
   },
   "files": {
-    "ignore": ["src/lib/haste", "target"]
+    "ignore": ["src/lib/haste", "target", "dist"]
   }
 }

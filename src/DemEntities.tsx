@@ -163,8 +163,8 @@ function EntityList() {
               <li
                 key={virtualItem.key}
                 className={cn(
-                  "absolute top-0 left-0 w-full px-2 flex items-center cursor-pointer text-fg-subtle hover:bg-neutral-500/40",
-                  entitySelected && "bg-neutral-500/60 text-fg",
+                  "haste-li haste-li__virtual haste-li__selectable flex items-center",
+                  entitySelected && "haste-li__selected",
                 )}
                 style={{
                   height: `${virtualItem.size}px`,
@@ -175,7 +175,7 @@ function EntityList() {
               >
                 {showEntityIndex && (
                   <span
-                    className="text-fg-subtle opacity-40 text-end mr-2"
+                    className="opacity-40 text-end mr-2"
                     style={{ minWidth: "4ch" }}
                   >
                     {entityItem.index}
@@ -414,8 +414,8 @@ function EntityFieldList() {
               <li
                 key={virtualItem.key}
                 className={cn(
-                  "absolute top-0 left-0 w-full px-2 flex items-center hover:bg-neutral-500/20",
-                  handleValid && "cursor-pointer hover:bg-neutral-500/40",
+                  "haste-li haste-li__virtual flex items-center",
+                  handleValid && "haste-li__selectable",
                 )}
                 style={{
                   height: `${virtualItem.size}px`,
@@ -427,36 +427,32 @@ function EntityFieldList() {
                 <span className="whitespace-nowrap gap-x-[1ch] flex items-center">
                   {showFieldPath && (
                     <span
-                      className="text-fg-subtle opacity-40 whitespace-pre mr-2"
+                      className="opacity-40 whitespace-pre mr-2"
                       style={{ width: `${joinedPathMaxLen}ch` }}
                     >
                       {entityFieldItem.joinedPath}
                     </span>
                   )}
-                  <span className="text-fg-subtle">
-                    {entityFieldItem.joinedNamedPath}
-                  </span>
-                  <span className="text-fg-subtle opacity-40 -ml-2">:</span>
+                  <span>{entityFieldItem.joinedNamedPath}</span>
+                  <span className="opacity-40 -ml-2">:</span>
                   {(showFieldEncodedType || showFieldDecodedType) && (
                     <>
                       {showFieldEncodedType && (
-                        <span className="text-fg-subtle opacity-40">
+                        <span className="opacity-40">
                           {entityFieldItem.inner.encodedAs || "_"}
                         </span>
                       )}
                       {showFieldEncodedType && showFieldDecodedType && (
-                        <span className="text-fg-subtle opacity-40">
-                          {"->"}
-                        </span>
+                        <span className="opacity-40">{"->"}</span>
                       )}
                       {showFieldDecodedType && (
-                        <span className="text-fg-subtle opacity-40">
+                        <span className="opacity-40">
                           {entityFieldItem.inner.decodedAs}
                         </span>
                       )}
                     </>
                   )}
-                  <span>{entityFieldItem.inner.value}</span>
+                  <span className="text-fg">{entityFieldItem.inner.value}</span>
                   {handle &&
                     (handleValid ? (
                       <Tooltip content="click to navigate to the linked entity">
@@ -464,7 +460,7 @@ function EntityFieldList() {
                       </Tooltip>
                     ) : (
                       <Tooltip content="this handle is invalid">
-                        <Link2OffIcon className="size-4 text-fg-subtle" />
+                        <Link2OffIcon className="size-4" />
                       </Tooltip>
                     ))}
                 </span>
@@ -484,7 +480,7 @@ export default function DemEntities() {
         <Panel minSize={24} defaultSize={24}>
           <EntityList />
         </Panel>
-        <PanelResizeHandle className="w-px h-full bg-divider data-[resize-handle-state=hover]:bg-current data-[resize-handle-state=drag]:bg-current" />
+        <PanelResizeHandle className="haste-panel-resize-handle" />
         <Panel minSize={24}>
           <EntityFieldList />
         </Panel>

@@ -43,6 +43,25 @@ export class EntityLi {
 }
 /**
 */
+export class StringTableItemLi {
+  free(): void;
+/**
+*/
+  string?: Uint8Array;
+/**
+*/
+  userData?: Uint8Array;
+}
+/**
+*/
+export class StringTableLi {
+  free(): void;
+/**
+*/
+  name: string;
+}
+/**
+*/
 export class WrappedParser {
   free(): void;
 /**
@@ -79,6 +98,15 @@ export class WrappedParser {
 * @returns {(EntityFieldLi)[] | undefined}
 */
   listBaselineEntityFields(entity_index: number): (EntityFieldLi)[] | undefined;
+/**
+* @returns {(StringTableLi)[] | undefined}
+*/
+  listStringTables(): (StringTableLi)[] | undefined;
+/**
+* @param {string} string_table_name
+* @returns {(StringTableItemLi)[] | undefined}
+*/
+  listStringTableItems(string_table_name: string): (StringTableItemLi)[] | undefined;
 }
 
 export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembly.Module;
@@ -101,6 +129,12 @@ export interface InitOutput {
   readonly __wbg_set_entityfieldli_encodedAs: (a: number, b: number, c: number) => void;
   readonly __wbg_get_entityfieldli_decodedAs: (a: number, b: number) => void;
   readonly __wbg_set_entityfieldli_decodedAs: (a: number, b: number, c: number) => void;
+  readonly __wbg_stringtableli_free: (a: number, b: number) => void;
+  readonly __wbg_stringtableitemli_free: (a: number, b: number) => void;
+  readonly __wbg_get_stringtableitemli_string: (a: number, b: number) => void;
+  readonly __wbg_set_stringtableitemli_string: (a: number, b: number, c: number) => void;
+  readonly __wbg_get_stringtableitemli_userData: (a: number, b: number) => void;
+  readonly __wbg_set_stringtableitemli_userData: (a: number, b: number, c: number) => void;
   readonly wrappedparser_fromBytes: (a: number, b: number, c: number) => void;
   readonly wrappedparser_tick: (a: number) => number;
   readonly wrappedparser_totalTicks: (a: number, b: number) => void;
@@ -109,9 +143,13 @@ export interface InitOutput {
   readonly wrappedparser_listBaselineEntities: (a: number, b: number) => void;
   readonly wrappedparser_listEntityFields: (a: number, b: number, c: number) => void;
   readonly wrappedparser_listBaselineEntityFields: (a: number, b: number, c: number) => void;
+  readonly wrappedparser_listStringTables: (a: number, b: number) => void;
+  readonly wrappedparser_listStringTableItems: (a: number, b: number, c: number, d: number) => void;
   readonly isHandleValid: (a: number) => number;
   readonly handleToIndex: (a: number) => number;
   readonly __wbg_set_entityli_name: (a: number, b: number, c: number) => void;
+  readonly __wbg_set_stringtableli_name: (a: number, b: number, c: number) => void;
+  readonly __wbg_get_stringtableli_name: (a: number, b: number) => void;
   readonly __wbindgen_malloc: (a: number, b: number) => number;
   readonly __wbindgen_realloc: (a: number, b: number, c: number, d: number) => number;
   readonly __wbindgen_add_to_stack_pointer: (a: number) => number;

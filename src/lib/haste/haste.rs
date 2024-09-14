@@ -38,6 +38,18 @@ pub struct EntityFieldLi {
     pub decoded_as: String,
 }
 
+#[wasm_bindgen(getter_with_clone)]
+pub struct StringTableLi {
+    pub name: String,
+}
+
+#[wasm_bindgen(getter_with_clone)]
+pub struct StringTableItemLi {
+    pub string: Option<Vec<u8>>,
+    #[wasm_bindgen(js_name = "userData")]
+    pub user_data: Option<Vec<u8>>,
+}
+
 #[wasm_bindgen]
 impl WrappedParser {
     #[wasm_bindgen(constructor, js_name = "fromBytes")]
@@ -129,6 +141,42 @@ impl WrappedParser {
             entities
                 .get_baseline(&entity_index)
                 .map(Self::collect_entity_field_list)
+        })
+    }
+
+    #[wasm_bindgen(js_name = "listStringTables")]
+    pub fn list_string_tables(&self) -> Option<Vec<StringTableLi>> {
+        self.parser.string_tables().map(|string_tables| {
+            string_tables
+                .tables()
+                .map(|string_table| StringTableLi {
+                    name: string_table.name().to_string(),
+                })
+                .collect()
+        })
+    }
+
+    #[wasm_bindgen(js_name = "listStringTableItems")]
+    pub fn list_string_table_items(
+        &self,
+        string_table_name: String,
+    ) -> Option<Vec<StringTableItemLi>> {
+        println!("kew");
+        self.parser.string_tables().and_then(|string_tables| {
+            string_tables
+                .find_table(&string_table_name)
+                .map(|string_table| {
+                    string_table
+                        .items()
+                        .map(|(_index, item)| StringTableItemLi {
+                            string: item.string.clone(),
+                            user_data: item
+                                .user_data
+                                .as_ref()
+                                .map(|rc| unsafe { (&*rc.get()).clone() }),
+                        })
+                        .collect()
+                })
         })
     }
 }
