@@ -66,10 +66,19 @@ export class WrappedParser {
 */
   listEntities(): (EntityLi)[] | undefined;
 /**
+* @returns {(EntityLi)[] | undefined}
+*/
+  listBaselineEntities(): (EntityLi)[] | undefined;
+/**
 * @param {number} entity_index
 * @returns {(EntityFieldLi)[] | undefined}
 */
   listEntityFields(entity_index: number): (EntityFieldLi)[] | undefined;
+/**
+* @param {number} entity_index
+* @returns {(EntityFieldLi)[] | undefined}
+*/
+  listBaselineEntityFields(entity_index: number): (EntityFieldLi)[] | undefined;
 }
 
 export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembly.Module;
@@ -97,7 +106,9 @@ export interface InitOutput {
   readonly wrappedparser_totalTicks: (a: number, b: number) => void;
   readonly wrappedparser_runToTick: (a: number, b: number, c: number) => void;
   readonly wrappedparser_listEntities: (a: number, b: number) => void;
+  readonly wrappedparser_listBaselineEntities: (a: number, b: number) => void;
   readonly wrappedparser_listEntityFields: (a: number, b: number, c: number) => void;
+  readonly wrappedparser_listBaselineEntityFields: (a: number, b: number, c: number) => void;
   readonly isHandleValid: (a: number) => number;
   readonly handleToIndex: (a: number) => number;
   readonly __wbg_set_entityli_name: (a: number, b: number, c: number) => void;

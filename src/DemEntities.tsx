@@ -1,7 +1,6 @@
-import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { useAtom } from "jotai";
-import { CheckIcon, CogIcon, Link2Icon, Link2OffIcon } from "lucide-react";
+import { CogIcon, Link2Icon, Link2OffIcon } from "lucide-react";
 import { useCallback, useMemo, useRef, useState, useTransition } from "react";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import DemFilterBar, { type UpdateEventHandler } from "./DemFilterBar";
@@ -9,12 +8,19 @@ import {
   demParserAtom,
   demSelectedEntityIndexAtom,
   demTickAtom,
+  demViewAtom,
 } from "./atoms";
 import { Button } from "./lib/Button";
 import { ScrollArea } from "./lib/ScrollArea";
 import { Tooltip } from "./lib/Tooltip";
-import { type EntityLi, handleToIndex, isHandleValid } from "./lib/haste";
+import {
+  type EntityLi,
+  handleToIndex,
+  isHandleValid,
+  EntityFieldLi,
+} from "./lib/haste";
 import { cn } from "./lib/style";
+import * as DropdownMenu from "./lib/DropdownMenu";
 
 const LI_HEIGHT = 26;
 
@@ -24,30 +30,6 @@ const DEFAULT_SHOW_FIELD_ENCODED_TYPE = true;
 const DEFAULT_SHOW_FIELD_DECODED_TYPE = false;
 const DEFAULT_SHOW_FIELD_PATH = false;
 
-type DropdownMenuCheckboxItemProps = Pick<
-  DropdownMenuPrimitive.DropdownMenuCheckboxItemProps,
-  "checked" | "onCheckedChange"
-> & {
-  label: React.ReactNode;
-};
-
-function DropdownMenuCheckboxItem(props: DropdownMenuCheckboxItemProps) {
-  const { checked, onCheckedChange, label } = props;
-
-  return (
-    <DropdownMenuPrimitive.CheckboxItem
-      checked={checked}
-      onCheckedChange={onCheckedChange}
-      className="flex items-center hover:bg-neutral-500/40 rounded px-2 py-0.5 gap-x-2 cursor-pointer"
-    >
-      <DropdownMenuPrimitive.ItemIndicator forceMount>
-        <CheckIcon className={cn("size-4", !checked && "invisible")} />
-      </DropdownMenuPrimitive.ItemIndicator>
-      {label}
-    </DropdownMenuPrimitive.CheckboxItem>
-  );
-}
-
 type EntityListPreferencesProps = {
   showEntityIndex: boolean;
   setShowEntityIndex: (value: boolean) => void;
@@ -55,53 +37,56 @@ type EntityListPreferencesProps = {
 
 // NOTE: keep this in sync with EntityFieldListPreferences
 function EntityListPreferences(props: EntityListPreferencesProps) {
-  const {
-    showEntityIndex,
-    setShowEntityIndex,
-  } = props;
+  const { showEntityIndex, setShowEntityIndex } = props;
 
   const [open, setOpen] = useState(false);
 
-  const active = open;
-
   return (
-    <DropdownMenuPrimitive.Root open={open} onOpenChange={setOpen}>
-      <DropdownMenuPrimitive.Trigger asChild>
+    <DropdownMenu.Root open={open} onOpenChange={setOpen}>
+      <DropdownMenu.Trigger asChild>
         <span className="inline-flex">
           <Tooltip content="display preferences">
-            <Button size="small" className={cn(active && "bg-neutral-500/30")}>
-              <CogIcon
-                className={cn("size-4", !active && "stroke-fg-subtle")}
-              />
+            <Button size="small" className={cn(open && "bg-neutral-500/30")}>
+              <CogIcon className={cn("size-4", !open && "stroke-fg-subtle")} />
             </Button>
           </Tooltip>
         </span>
-      </DropdownMenuPrimitive.Trigger>
-      <DropdownMenuPrimitive.Portal>
-        <DropdownMenuPrimitive.Content
+      </DropdownMenu.Trigger>
+      <DropdownMenu.Portal>
+        <DropdownMenu.Content
           align="end"
           sideOffset={8}
           // NOTE: following classes are stolen from tooltip
           className="bg-white dark:bg-black rounded z-10"
         >
-          <DropdownMenuCheckboxItem
+          <DropdownMenu.CheckboxItem
             checked={showEntityIndex}
             onCheckedChange={setShowEntityIndex}
-            label="entity index"
-          />
-        </DropdownMenuPrimitive.Content>
-      </DropdownMenuPrimitive.Portal>
-    </DropdownMenuPrimitive.Root>
+          >
+            entity index
+          </DropdownMenu.CheckboxItem>
+        </DropdownMenu.Content>
+      </DropdownMenu.Portal>
+    </DropdownMenu.Root>
   );
 }
 
 function EntityList() {
   const [demParser] = useAtom(demParserAtom);
+  const [demView] = useAtom(demViewAtom);
   const [demTick] = useAtom(demTickAtom);
   const entityList = useMemo(() => {
     demTick; // trick eslint
-    return demParser?.listEntities();
-  }, [demParser, demTick]);
+
+    let entityList: EntityLi[] | undefined;
+    if (demView === "entities") {
+      entityList = demParser?.listEntities();
+    } else if (demView === "baselineEntities") {
+      entityList = demParser?.listBaselineEntities();
+    }
+
+    return entityList;
+  }, [demParser, demView, demTick]);
 
   const [, startTransition] = useTransition();
   const [filteredEntityList, setFinalEntityList] = useState(entityList);
@@ -142,7 +127,9 @@ function EntityList() {
     [setDemSelectedEntityIndex],
   );
 
-  const [showEntityIndex, setShowEntityIndex] = useState(DEFAULT_SHOW_ENTITY_INDEX);
+  const [showEntityIndex, setShowEntityIndex] = useState(
+    DEFAULT_SHOW_ENTITY_INDEX,
+  );
 
   return (
     <div className="w-full h-full flex flex-col">
@@ -231,8 +218,8 @@ function EntityFieldListPreferences(props: EntityFieldListPreferencesProps) {
   const active = open;
 
   return (
-    <DropdownMenuPrimitive.Root open={open} onOpenChange={setOpen}>
-      <DropdownMenuPrimitive.Trigger asChild>
+    <DropdownMenu.Root open={open} onOpenChange={setOpen}>
+      <DropdownMenu.Trigger asChild>
         <span className="inline-flex">
           <Tooltip content="display preferences">
             <Button size="small" className={cn(active && "bg-neutral-500/30")}>
@@ -242,39 +229,43 @@ function EntityFieldListPreferences(props: EntityFieldListPreferencesProps) {
             </Button>
           </Tooltip>
         </span>
-      </DropdownMenuPrimitive.Trigger>
-      <DropdownMenuPrimitive.Portal>
-        <DropdownMenuPrimitive.Content
+      </DropdownMenu.Trigger>
+      <DropdownMenu.Portal>
+        <DropdownMenu.Content
           align="end"
           sideOffset={8}
           // NOTE: following classes are stolen from tooltip
           className="bg-white dark:bg-black rounded z-10"
         >
-          <DropdownMenuCheckboxItem
+          <DropdownMenu.CheckboxItem
             checked={showFieldPath}
             onCheckedChange={setShowFieldPath}
-            label="field path"
-          />
-          <DropdownMenuCheckboxItem
+          >
+            field path
+          </DropdownMenu.CheckboxItem>
+          <DropdownMenu.CheckboxItem
             checked={showFieldEncodedType}
             onCheckedChange={setShowFieldEncodedType}
-            label="encoded type"
-          />
-          <DropdownMenuCheckboxItem
+          >
+            encoded type
+          </DropdownMenu.CheckboxItem>
+          <DropdownMenu.CheckboxItem
             checked={showFieldDecodedType}
             onCheckedChange={setShowFieldDecodedType}
-            label="decoded type"
-          />
-        </DropdownMenuPrimitive.Content>
-      </DropdownMenuPrimitive.Portal>
-    </DropdownMenuPrimitive.Root>
+          >
+            decoded type
+          </DropdownMenu.CheckboxItem>
+        </DropdownMenu.Content>
+      </DropdownMenu.Portal>
+    </DropdownMenu.Root>
   );
 }
 
 function EntityFieldList() {
   const [demParser] = useAtom(demParserAtom);
-  const [demTick] = useAtom(demTickAtom);
+  const [demView] = useAtom(demViewAtom);
   const [demSelectedEntityIndex] = useAtom(demSelectedEntityIndexAtom);
+  const [demTick] = useAtom(demTickAtom);
 
   const { entityFieldList, joinedPathMaxLen } = useMemo(() => {
     demTick; // trick eslint
@@ -283,21 +274,28 @@ function EntityFieldList() {
       return {};
     }
 
+    let tmpEntityFieldList: EntityFieldLi[] | undefined;
+    if (demView === "entities") {
+      tmpEntityFieldList = demParser?.listEntityFields(demSelectedEntityIndex);
+    } else if (demView === "baselineEntities") {
+      tmpEntityFieldList = demParser?.listBaselineEntityFields(
+        demSelectedEntityIndex,
+      );
+    }
+
     let joinedPathMaxLen = 0;
 
-    const entityFieldList = demParser
-      ?.listEntityFields(demSelectedEntityIndex)
-      ?.map((entityField) => {
-        const joinedPath = Array.from(entityField.path)
-          .map((part) => part.toString().padStart(4, " "))
-          .join("");
-        joinedPathMaxLen = Math.max(joinedPathMaxLen, joinedPath.length);
-        return {
-          inner: entityField,
-          joinedPath,
-          joinedNamedPath: entityField.namedPath.join("."),
-        };
-      });
+    const entityFieldList = tmpEntityFieldList?.map((entityField) => {
+      const joinedPath = Array.from(entityField.path)
+        .map((part) => part.toString().padStart(4, " "))
+        .join("");
+      joinedPathMaxLen = Math.max(joinedPathMaxLen, joinedPath.length);
+      return {
+        inner: entityField,
+        joinedPath,
+        joinedNamedPath: entityField.namedPath.join("."),
+      };
+    });
 
     entityFieldList?.sort((a, b) => {
       // compare path arrays element by element
@@ -316,7 +314,7 @@ function EntityFieldList() {
     });
 
     return { entityFieldList, joinedPathMaxLen };
-  }, [demSelectedEntityIndex, demParser, demTick]);
+  }, [demParser, demView, demSelectedEntityIndex, demTick]);
 
   type WrappedEntityFieldLi = NonNullable<typeof entityFieldList>[0];
 

@@ -6,7 +6,7 @@
 // - https://stackoverflow.com/questions/65332927/is-it-possible-to-wasm-bindgen-public-structs-and-functions-defined-in-anothe
 
 use haste::{
-    entities,
+    entities::{self, Entity},
     fieldpath::FieldPath,
     fieldvalue::FieldValue,
     flattenedserializers::FlattenedSerializer,
@@ -66,44 +66,69 @@ impl WrappedParser {
             .map_err(|err| JsError::new(&err.to_string()))
     }
 
+    fn collect_entity_list<'a>(
+        entities: impl Iterator<Item = (&'a i32, &'a Entity)>,
+    ) -> Vec<EntityLi> {
+        entities
+            .map(|(index, entity)| EntityLi {
+                index: *index,
+                name: entity.serializer().serializer_name.str.to_string(),
+            })
+            .collect()
+    }
+
     #[wasm_bindgen(js_name = "listEntities")]
     pub fn list_entities(&self) -> Option<Vec<EntityLi>> {
-        self.parser.entities().map(|entities| {
-            entities
-                .iter()
-                .map(|(index, entity)| EntityLi {
-                    index: *index,
-                    name: entity.serializer().serializer_name.str.to_string(),
-                })
-                .collect()
-        })
+        self.parser
+            .entities()
+            .map(|entities| Self::collect_entity_list(entities.iter()))
+    }
+
+    #[wasm_bindgen(js_name = "listBaselineEntities")]
+    pub fn list_baseline_entities(&self) -> Option<Vec<EntityLi>> {
+        self.parser
+            .entities()
+            .map(|entities| Self::collect_entity_list(entities.iter_baselines()))
+    }
+
+    fn collect_entity_field_list(entity: &Entity) -> Vec<EntityFieldLi> {
+        entity
+            .iter()
+            .map(|(key, field_value)| {
+                let fp = entity
+                    .get_path(key)
+                    // NOTE: this should never throw because if entity
+                    // was returned it means that it exists thus path
+                    // exists
+                    .unwrap_throw();
+                let (named_path, var_type) = get_value_info(entity.serializer(), fp);
+
+                EntityFieldLi {
+                    path: fp.iter().cloned().collect(),
+                    named_path,
+                    value: field_value.to_string(),
+                    encoded_as: var_type,
+                    decoded_as: get_field_value_discriminant_name(field_value).to_string(),
+                }
+            })
+            .collect()
     }
 
     #[wasm_bindgen(js_name = "listEntityFields")]
     pub fn list_entity_fields(&self, entity_index: i32) -> Option<Vec<EntityFieldLi>> {
         self.parser.entities().and_then(|entities| {
-            entities.get(&entity_index).map(|entity| {
-                entity
-                    .iter()
-                    .map(|(key, field_value)| {
-                        let fp = entity
-                            .get_path(key)
-                            // NOTE: this should never throw because if entity
-                            // was returned it means that it exists thus path
-                            // exists
-                            .unwrap_throw();
-                        let (named_path, var_type) = get_value_info(entity.serializer(), fp);
+            entities
+                .get(&entity_index)
+                .map(Self::collect_entity_field_list)
+        })
+    }
 
-                        EntityFieldLi {
-                            path: fp.iter().cloned().collect(),
-                            named_path,
-                            value: field_value.to_string(),
-                            encoded_as: var_type,
-                            decoded_as: get_field_value_discriminant_name(field_value).to_string(),
-                        }
-                    })
-                    .collect()
-            })
+    #[wasm_bindgen(js_name = "listBaselineEntityFields")]
+    pub fn list_baseline_entity_fields(&self, entity_index: i32) -> Option<Vec<EntityFieldLi>> {
+        self.parser.entities().and_then(|entities| {
+            entities
+                .get_baseline(&entity_index)
+                .map(Self::collect_entity_field_list)
         })
     }
 }

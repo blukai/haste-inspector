@@ -9,7 +9,7 @@ export default {
         fg: "rgb(var(--fg) / <alpha-value>)",
         "bg-subtle": "rgb(var(--bg-subtle) / <alpha-value>)",
         "fg-subtle": "rgb(var(--fg-subtle) / <alpha-value>)",
-        divider: "#404040", // dark neutral-700
+        divider: "#525252", // dark neutral-600
       },
     },
   },

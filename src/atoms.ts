@@ -26,3 +26,4 @@ export const demFileAtom = atom<File | undefined>(undefined);
 export const demParserAtom = atom<WrappedParser | undefined>(undefined);
 export const demTickAtom = atom(0);
 export const demSelectedEntityIndexAtom = atom<number | undefined>(undefined);
+export const demViewAtom = atom<"entities" | "baselineEntities">("entities");

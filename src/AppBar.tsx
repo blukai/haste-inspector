@@ -6,11 +6,15 @@ import {
   MoonIcon,
   SunIcon,
   XIcon,
+  SlashIcon,
+  ChevronDownIcon,
 } from "lucide-react";
-import { useLayoutEffect } from "react";
-import { darkModeAtom, demFileAtom, fullWidthAtom } from "./atoms";
+import { useLayoutEffect, useState } from "react";
+import { darkModeAtom, demFileAtom, demViewAtom, fullWidthAtom } from "./atoms";
 import { Button } from "./lib/Button";
 import { Tooltip } from "./lib/Tooltip";
+import * as DropdownMenu from "./lib/DropdownMenu";
+import { cn } from "./lib/style";
 
 function IconSection() {
   return (
@@ -32,6 +36,47 @@ function IconSection() {
   );
 }
 
+function DemViewSelection() {
+  const [demView, setDemView] = useAtom(demViewAtom);
+  const [demViewOpen, setDemViewOpen] = useState(false);
+
+  return (
+    <DropdownMenu.Root open={demViewOpen} onOpenChange={setDemViewOpen}>
+      <DropdownMenu.Trigger asChild>
+        <Button
+          size="small"
+          className={cn("px-2", demViewOpen && "bg-neutral-500/30")}
+        >
+          {demView === "entities" && "entities"}
+          {demView === "baselineEntities" && "baseline entities"}
+          <ChevronDownIcon className={cn("size-3 stroke-fg-subtle ml-2")} />
+        </Button>
+      </DropdownMenu.Trigger>
+      <DropdownMenu.Portal>
+        <DropdownMenu.Content
+          align="end"
+          sideOffset={8}
+          // NOTE: following classes are stolen from tooltip
+          className="bg-white dark:bg-black rounded z-10"
+        >
+          <DropdownMenu.CheckboxItem
+            checked={demView === "entities"}
+            onCheckedChange={(_value) => setDemView("entities")}
+          >
+            entities
+          </DropdownMenu.CheckboxItem>
+          <DropdownMenu.CheckboxItem
+            checked={demView === "baselineEntities"}
+            onCheckedChange={(_value) => setDemView("baselineEntities")}
+          >
+            baseline entities
+          </DropdownMenu.CheckboxItem>
+        </DropdownMenu.Content>
+      </DropdownMenu.Portal>
+    </DropdownMenu.Root>
+  );
+}
+
 function DemFileSection() {
   const [demFile, setDemFile] = useAtom(demFileAtom);
 
@@ -39,16 +84,17 @@ function DemFileSection() {
   // files that were open.
 
   return (
-    <div className="flex items-center justify-center gap-x-2">
+    <div className="flex items-center gap-x-1 border-l border-l-divider pl-2">
       {demFile && (
         <>
-          <Button size="small" className="invisible" disabled>
-            <XIcon className="size-4" />
-          </Button>
-          <span>{demFile.name}</span>
-          <Button size="small" onClick={() => setDemFile(undefined)}>
-            <XIcon className="size-4" />
-          </Button>
+          <div className="flex items-center gap-x-1">
+            <span>{demFile.name}</span>
+            <Button size="small" onClick={() => setDemFile(undefined)}>
+              <XIcon className="size-3 stroke-fg-subtle" />
+            </Button>
+          </div>
+          <SlashIcon className="size-3 text-divider" />
+          <DemViewSelection />
         </>
       )}
     </div>
@@ -118,7 +164,7 @@ function UiSection() {
 
 export default function AppBar() {
   return (
-    <div className="shrink-0 grid grid-cols-3 px-1 h-8">
+    <div className="shrink-0 grid grid-cols-[auto_1fr_auto] px-1 h-8">
       <IconSection />
       <DemFileSection />
       <UiSection />
