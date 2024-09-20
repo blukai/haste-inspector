@@ -2,10 +2,10 @@ import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
 import DemEntities from "./DemEntities";
 import DemLayout from "./DemLayout";
+import DemStringTables from "./DemStringTables";
 import { demFileAtom, demParserAtom, demTickAtom, demViewAtom } from "./atoms";
 import { Tooltip } from "./lib/Tooltip";
 import initHaste, { WrappedParser } from "./lib/haste";
-import DemStringTables from "./DemStringTables";
 
 function readFileToBytes(file: File) {
   return new Promise<Uint8Array>((resolve, reject) => {

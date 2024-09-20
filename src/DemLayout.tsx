@@ -1,4 +1,4 @@
-import React from "react";
+import type React from "react";
 import DemControlBar from "./DemControlBar";
 
 type DemLayoutProps = React.PropsWithChildren;

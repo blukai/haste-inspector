@@ -1,19 +1,19 @@
 import { useAtom } from "jotai";
 import {
+  ChevronDownIcon,
   GithubIcon,
   Maximize2Icon,
   Minimize2Icon,
   MoonIcon,
+  SlashIcon,
   SunIcon,
   XIcon,
-  SlashIcon,
-  ChevronDownIcon,
 } from "lucide-react";
 import { useLayoutEffect, useState } from "react";
 import { darkModeAtom, demFileAtom, demViewAtom, fullWidthAtom } from "./atoms";
 import { Button } from "./lib/Button";
-import { Tooltip } from "./lib/Tooltip";
 import * as DropdownMenu from "./lib/DropdownMenu";
+import { Tooltip } from "./lib/Tooltip";
 import { cn } from "./lib/style";
 
 function IconSection() {

@@ -11,16 +11,16 @@ import {
   demViewAtom,
 } from "./atoms";
 import { Button } from "./lib/Button";
+import * as DropdownMenu from "./lib/DropdownMenu";
 import { ScrollArea } from "./lib/ScrollArea";
 import { Tooltip } from "./lib/Tooltip";
 import {
+  type EntityFieldLi,
   type EntityLi,
   handleToIndex,
   isHandleValid,
-  EntityFieldLi,
 } from "./lib/haste";
 import { cn } from "./lib/style";
-import * as DropdownMenu from "./lib/DropdownMenu";
 
 const LI_HEIGHT = 26;
 

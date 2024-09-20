@@ -1,4 +1,3 @@
 ideas:
 - a way to search entity by entity id
-- clickable entity ids in entity field list
 - a way to search for entity fields across all entities

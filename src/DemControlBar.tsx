@@ -1,5 +1,6 @@
 import { useAtom } from "jotai";
-import React, { useCallback, useEffect, useState, useTransition } from "react";
+import type React from "react";
+import { useCallback, useEffect, useState, useTransition } from "react";
 import { demParserAtom, demTickAtom } from "./atoms";
 import { Slider } from "./lib/Slider";
 import { Tooltip } from "./lib/Tooltip";

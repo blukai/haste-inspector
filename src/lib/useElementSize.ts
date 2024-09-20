@@ -1,4 +1,5 @@
-import React, { useLayoutEffect, useState } from "react";
+import type React from "react";
+import { useLayoutEffect, useState } from "react";
 
 const INITIAL_STATE = Object.freeze({ width: 0, height: 0 });
 

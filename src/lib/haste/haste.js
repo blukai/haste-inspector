@@ -767,10 +767,6 @@ function __wbg_get_imports() {
         const ret = new Error(getStringFromWasm0(arg0, arg1));
         return addHeapObject(ret);
     };
-    imports.wbg.__wbg_entityfieldli_new = function(arg0) {
-        const ret = EntityFieldLi.__wrap(arg0);
-        return addHeapObject(ret);
-    };
     imports.wbg.__wbg_entityli_new = function(arg0) {
         const ret = EntityLi.__wrap(arg0);
         return addHeapObject(ret);
@@ -781,6 +777,10 @@ function __wbg_get_imports() {
     };
     imports.wbg.__wbg_stringtableli_new = function(arg0) {
         const ret = StringTableLi.__wrap(arg0);
+        return addHeapObject(ret);
+    };
+    imports.wbg.__wbg_entityfieldli_new = function(arg0) {
+        const ret = EntityFieldLi.__wrap(arg0);
         return addHeapObject(ret);
     };
     imports.wbg.__wbindgen_string_new = function(arg0, arg1) {

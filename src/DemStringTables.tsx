@@ -1,13 +1,13 @@
+import { useVirtualizer } from "@tanstack/react-virtual";
 import { useAtom } from "jotai";
+import { useCallback, useMemo, useRef } from "react";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import {
   demParserAtom,
   demSelectedStringTableNameAtom,
   demTickAtom,
 } from "./atoms";
-import { useCallback, useMemo, useRef } from "react";
 import { ScrollArea } from "./lib/ScrollArea";
-import { useVirtualizer } from "@tanstack/react-virtual";
 import { cn } from "./lib/style";
 
 // TODO: deduplicate (same const exists in DemEntities.tsx)
