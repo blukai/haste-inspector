@@ -23,6 +23,11 @@
     "indentStyle": "space"
   },
   "files": {
-    "ignore": ["src/lib/haste", "target", "dist"]
+    "ignore": [
+      "./node_modules",
+      "./target",
+      "./apps/haste-inspector/dist",
+      "./pkgs/haste-wasm"
+    ]
   }
 }

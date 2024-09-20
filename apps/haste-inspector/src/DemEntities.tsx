@@ -1,4 +1,10 @@
 import { useVirtualizer } from "@tanstack/react-virtual";
+import {
+  type EntityFieldLi,
+  type EntityLi,
+  handleToIndex,
+  isHandleValid,
+} from "haste-wasm";
 import { useAtom } from "jotai";
 import { CogIcon, Link2Icon, Link2OffIcon } from "lucide-react";
 import { useCallback, useMemo, useRef, useState, useTransition } from "react";
@@ -14,12 +20,6 @@ import { Button } from "./lib/Button";
 import * as DropdownMenu from "./lib/DropdownMenu";
 import { ScrollArea } from "./lib/ScrollArea";
 import { Tooltip } from "./lib/Tooltip";
-import {
-  type EntityFieldLi,
-  type EntityLi,
-  handleToIndex,
-  isHandleValid,
-} from "./lib/haste";
 import { cn } from "./lib/style";
 
 const LI_HEIGHT = 26;

@@ -1,6 +1,6 @@
+import type { WrappedParser } from "haste-wasm";
 import { atom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
-import type { WrappedParser } from "./lib/haste";
 
 // https://jotai.org/docs/recipes/atom-with-toggle-and-storage
 function atomWithToggleAndStorage(

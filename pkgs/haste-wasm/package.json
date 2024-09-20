@@ -1,0 +1,15 @@
+{
+  "name": "haste-wasm",
+  "type": "module",
+  "version": "0.0.0",
+  "files": [
+    "haste-wasm_bg.wasm",
+    "haste-wasm.js",
+    "haste-wasm.d.ts"
+  ],
+  "main": "haste-wasm.js",
+  "types": "haste-wasm.d.ts",
+  "sideEffects": [
+    "./snippets/*"
+  ]
+}

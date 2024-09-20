@@ -771,12 +771,12 @@ function __wbg_get_imports() {
         const ret = EntityLi.__wrap(arg0);
         return addHeapObject(ret);
     };
-    imports.wbg.__wbg_stringtableitemli_new = function(arg0) {
-        const ret = StringTableItemLi.__wrap(arg0);
-        return addHeapObject(ret);
-    };
     imports.wbg.__wbg_stringtableli_new = function(arg0) {
         const ret = StringTableLi.__wrap(arg0);
+        return addHeapObject(ret);
+    };
+    imports.wbg.__wbg_stringtableitemli_new = function(arg0) {
+        const ret = StringTableItemLi.__wrap(arg0);
         return addHeapObject(ret);
     };
     imports.wbg.__wbg_entityfieldli_new = function(arg0) {
@@ -852,7 +852,7 @@ async function __wbg_init(module_or_path) {
     console.warn('using deprecated parameters for the initialization function; pass a single object instead')
 
     if (typeof module_or_path === 'undefined') {
-        module_or_path = new URL('haste_bg.wasm', import.meta.url);
+        module_or_path = new URL('haste-wasm_bg.wasm', import.meta.url);
     }
     const imports = __wbg_get_imports();
 

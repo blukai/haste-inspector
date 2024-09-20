@@ -1,0 +1,11 @@
+[package]
+name = "haste-wasm"
+version = "0.0.0"
+edition = "2021"
+
+[dependencies]
+haste.workspace = true
+wasm-bindgen.workspace = true
+
+[lib]
+crate-type = ["cdylib"]
