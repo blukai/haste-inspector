@@ -151,8 +151,8 @@ function passArrayJsValueToWasm0(array, malloc) {
 * @param {number} handle
 * @returns {boolean}
 */
-export function isHandleValid(handle) {
-    const ret = wasm.isHandleValid(handle);
+export function isEHandleValid(handle) {
+    const ret = wasm.isEHandleValid(handle);
     return ret !== 0;
 }
 
@@ -160,9 +160,9 @@ export function isHandleValid(handle) {
 * @param {number} handle
 * @returns {number}
 */
-export function handleToIndex(handle) {
-    const ret = wasm.handleToIndex(handle);
-    return ret >>> 0;
+export function eHandleToIndex(handle) {
+    const ret = wasm.eHandleToIndex(handle);
+    return ret;
 }
 
 const EntityFieldLiFinalization = (typeof FinalizationRegistry === 'undefined')

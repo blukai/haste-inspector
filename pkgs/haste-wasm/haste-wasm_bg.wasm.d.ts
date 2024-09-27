@@ -33,8 +33,8 @@ export function wrappedparser_listEntityFields(a: number, b: number, c: number):
 export function wrappedparser_listBaselineEntityFields(a: number, b: number, c: number): void;
 export function wrappedparser_listStringTables(a: number, b: number): void;
 export function wrappedparser_listStringTableItems(a: number, b: number, c: number, d: number): void;
-export function isHandleValid(a: number): number;
-export function handleToIndex(a: number): number;
+export function isEHandleValid(a: number): number;
+export function eHandleToIndex(a: number): number;
 export function __wbg_get_stringtableli_name(a: number, b: number): void;
 export function __wbg_set_entityli_name(a: number, b: number, c: number): void;
 export function __wbg_set_stringtableli_name(a: number, b: number, c: number): void;

@@ -5,7 +5,11 @@
   "scripts": {
     "lint": "bunx @biomejs/biome lint . --write",
     "format": "bunx @biomejs/biome format . --write && bunx @biomejs/biome check --write .",
-    "build-haste-wasm": "wasm-pack build --target web --out-dir ../../pkgs/haste-wasm --out-name haste-wasm ./crates/haste-wasm -- --verbose && rm ./pkgs/haste-wasm/.gitignore"
+    "haste-wasm:build": "wasm-pack build --target web --out-dir ../../pkgs/haste-wasm --out-name haste-wasm ./crates/haste-wasm -- --verbose && rm ./pkgs/haste-wasm/.gitignore",
+    "haste-wasm:build-protobuf-src": "wasm-pack build --target web --out-dir ../../pkgs/haste-wasm --out-name haste-wasm ./crates/haste-wasm -- --verbose --features protobuf-src && rm ./pkgs/haste-wasm/.gitignore",
+    "haste-inspector:dev": "bun --filter=haste-inspector run dev",
+    "haste-inspector:build": "bun --filter=haste-inspector run build",
+    "haste-inspector:check": "bun --filter=haste-inspector run check"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.2"

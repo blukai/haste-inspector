@@ -32,7 +32,7 @@ jobs:
       - name: install dependencies
         run: bun i
       - name: build
-        run: bun --filter=haste-inspector run build
+        run: bun run haste-inspector:build
       - name: setup pages
         uses: actions/configure-pages@v3
       - name: upload artifact

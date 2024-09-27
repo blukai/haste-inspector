@@ -4,7 +4,8 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "bun --bun run vite",
-    "build": "tsc && bun --bun run vite build"
+    "build": "tsc && bun --bun run vite build",
+    "check": "tsc --noEmit"
   },
   "dependencies": {
     "@fontsource/jetbrains-mono": "^5.0.18",

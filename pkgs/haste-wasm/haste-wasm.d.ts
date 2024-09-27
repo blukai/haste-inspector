@@ -4,12 +4,12 @@
 * @param {number} handle
 * @returns {boolean}
 */
-export function isHandleValid(handle: number): boolean;
+export function isEHandleValid(handle: number): boolean;
 /**
 * @param {number} handle
 * @returns {number}
 */
-export function handleToIndex(handle: number): number;
+export function eHandleToIndex(handle: number): number;
 /**
 */
 export class EntityFieldLi {
@@ -145,8 +145,8 @@ export interface InitOutput {
   readonly wrappedparser_listBaselineEntityFields: (a: number, b: number, c: number) => void;
   readonly wrappedparser_listStringTables: (a: number, b: number) => void;
   readonly wrappedparser_listStringTableItems: (a: number, b: number, c: number, d: number) => void;
-  readonly isHandleValid: (a: number) => number;
-  readonly handleToIndex: (a: number) => number;
+  readonly isEHandleValid: (a: number) => number;
+  readonly eHandleToIndex: (a: number) => number;
   readonly __wbg_get_stringtableli_name: (a: number, b: number) => void;
   readonly __wbg_set_entityli_name: (a: number, b: number, c: number) => void;
   readonly __wbg_set_stringtableli_name: (a: number, b: number, c: number) => void;

@@ -1,9 +1,9 @@
 import { useVirtualizer } from "@tanstack/react-virtual";
 import {
+  isEHandleValid,
   type EntityFieldLi,
   type EntityLi,
-  handleToIndex,
-  isHandleValid,
+  eHandleToIndex,
 } from "haste-wasm";
 import { useAtom } from "jotai";
 import { CogIcon, Link2Icon, Link2OffIcon } from "lucide-react";
@@ -405,9 +405,9 @@ function EntityFieldList() {
             const handle =
               entityFieldItem.inner.encodedAs.startsWith("CHandle");
             const handleValid =
-              handle && isHandleValid(+entityFieldItem.inner.value);
+              handle && isEHandleValid(+entityFieldItem.inner.value);
             const linkedEntIdx = handleValid
-              ? handleToIndex(+entityFieldItem.inner.value)
+              ? eHandleToIndex(+entityFieldItem.inner.value)
               : null;
 
             return (

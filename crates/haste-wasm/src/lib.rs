@@ -222,12 +222,12 @@ fn get_field_value_discriminant_name(field_value: &FieldValue) -> &'static str {
     }
 }
 
-#[wasm_bindgen(js_name = "isHandleValid")]
-pub fn is_handle_valid(handle: u32) -> bool {
-    entities::is_handle_valid(handle)
+#[wasm_bindgen(js_name = "isEHandleValid")]
+pub fn is_ehandle_valid(handle: u32) -> bool {
+    entities::is_ehandle_valid(handle)
 }
 
-#[wasm_bindgen(js_name = "handleToIndex")]
-pub fn handle_to_index(handle: u32) -> usize {
-    entities::handle_to_index(handle)
+#[wasm_bindgen(js_name = "eHandleToIndex")]
+pub fn ehandle_to_index(handle: u32) -> i32 {
+    entities::ehandle_to_index(handle)
 }
