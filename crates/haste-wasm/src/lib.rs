@@ -5,19 +5,22 @@
 //   it should be possible to make prost add [wasm_bindgen] "derives".
 // - https://stackoverflow.com/questions/65332927/is-it-possible-to-wasm-bindgen-public-structs-and-functions-defined-in-anothe
 
+use std::io::Cursor;
+
 use haste::{
+    demofile::DemoFile,
+    demostream::DemoStream,
     entities::{self, Entity},
     fieldpath::FieldPath,
     fieldvalue::FieldValue,
     flattenedserializers::FlattenedSerializer,
     parser::{NopVisitor, Parser},
 };
-use std::io::Cursor;
 use wasm_bindgen::{prelude::wasm_bindgen, JsError, UnwrapThrowExt};
 
 #[wasm_bindgen]
 pub struct WrappedParser {
-    parser: Parser<Cursor<Vec<u8>>, NopVisitor>,
+    parser: Parser<DemoFile<Cursor<Vec<u8>>>, NopVisitor>,
 }
 
 #[wasm_bindgen(getter_with_clone)]
@@ -54,19 +57,20 @@ pub struct StringTableItemLi {
 impl WrappedParser {
     #[wasm_bindgen(constructor, js_name = "fromBytes")]
     pub fn from_bytes(bytes: Vec<u8>) -> Result<WrappedParser, JsError> {
-        let parser = Parser::from_reader(Cursor::new(bytes))
-            .map_err(|err| JsError::new(&err.to_string()))?;
+        let demo_file = DemoFile::start_reading(Cursor::new(bytes))?;
+        let parser = Parser::from_stream(demo_file)?;
         Ok(Self { parser })
     }
 
     #[wasm_bindgen(js_name = "tick")]
     pub fn tick(&mut self) -> i32 {
-        self.parser.tick()
+        self.parser.context().tick()
     }
 
     #[wasm_bindgen(js_name = "totalTicks")]
     pub fn total_ticks(&mut self) -> Result<i32, JsError> {
         self.parser
+            .demo_stream_mut()
             .total_ticks()
             .map_err(|err| JsError::new(&err.to_string()))
     }
@@ -92,6 +96,7 @@ impl WrappedParser {
     #[wasm_bindgen(js_name = "listEntities")]
     pub fn list_entities(&self) -> Option<Vec<EntityLi>> {
         self.parser
+            .context()
             .entities()
             .map(|entities| Self::collect_entity_list(entities.iter()))
     }
@@ -99,6 +104,7 @@ impl WrappedParser {
     #[wasm_bindgen(js_name = "listBaselineEntities")]
     pub fn list_baseline_entities(&self) -> Option<Vec<EntityLi>> {
         self.parser
+            .context()
             .entities()
             .map(|entities| Self::collect_entity_list(entities.iter_baselines()))
     }
@@ -128,7 +134,7 @@ impl WrappedParser {
 
     #[wasm_bindgen(js_name = "listEntityFields")]
     pub fn list_entity_fields(&self, entity_index: i32) -> Option<Vec<EntityFieldLi>> {
-        self.parser.entities().and_then(|entities| {
+        self.parser.context().entities().and_then(|entities| {
             entities
                 .get(&entity_index)
                 .map(Self::collect_entity_field_list)
@@ -137,7 +143,7 @@ impl WrappedParser {
 
     #[wasm_bindgen(js_name = "listBaselineEntityFields")]
     pub fn list_baseline_entity_fields(&self, entity_index: i32) -> Option<Vec<EntityFieldLi>> {
-        self.parser.entities().and_then(|entities| {
+        self.parser.context().entities().and_then(|entities| {
             entities
                 .get_baseline(&entity_index)
                 .map(Self::collect_entity_field_list)
@@ -146,7 +152,7 @@ impl WrappedParser {
 
     #[wasm_bindgen(js_name = "listStringTables")]
     pub fn list_string_tables(&self) -> Option<Vec<StringTableLi>> {
-        self.parser.string_tables().map(|string_tables| {
+        self.parser.context().string_tables().map(|string_tables| {
             string_tables
                 .tables()
                 .map(|string_table| StringTableLi {
@@ -161,23 +167,25 @@ impl WrappedParser {
         &self,
         string_table_name: String,
     ) -> Option<Vec<StringTableItemLi>> {
-        println!("kew");
-        self.parser.string_tables().and_then(|string_tables| {
-            string_tables
-                .find_table(&string_table_name)
-                .map(|string_table| {
-                    string_table
-                        .items()
-                        .map(|(_index, item)| StringTableItemLi {
-                            string: item.string.clone(),
-                            user_data: item
-                                .user_data
-                                .as_ref()
-                                .map(|rc| unsafe { (&*rc.get()).clone() }),
-                        })
-                        .collect()
-                })
-        })
+        self.parser
+            .context()
+            .string_tables()
+            .and_then(|string_tables| {
+                string_tables
+                    .find_table(&string_table_name)
+                    .map(|string_table| {
+                        string_table
+                            .items()
+                            .map(|(_index, item)| StringTableItemLi {
+                                string: item.string.clone(),
+                                user_data: item
+                                    .user_data
+                                    .as_ref()
+                                    .map(|rc| unsafe { (&*rc.get()).clone() }),
+                            })
+                            .collect()
+                    })
+            })
     }
 }
 

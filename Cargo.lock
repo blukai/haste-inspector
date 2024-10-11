@@ -140,7 +140,7 @@ checksum = "e5274423e17b7c9fc20b6e7e208532f9b19825d82dfd615708b70edd83df41f1"
 [[package]]
 name = "haste"
 version = "0.0.0"
-source = "git+https://github.com/blukai/haste.git?rev=84507a99a46ffb1b8dcc1a97c70842e2bc5274ad#84507a99a46ffb1b8dcc1a97c70842e2bc5274ad"
+source = "git+https://github.com/blukai/haste.git?rev=0b620718095c22206b0f3ad51cf63109005fc425#0b620718095c22206b0f3ad51cf63109005fc425"
 dependencies = [
  "haste_core",
 ]
@@ -156,7 +156,7 @@ dependencies = [
 [[package]]
 name = "haste_core"
 version = "0.0.0"
-source = "git+https://github.com/blukai/haste.git?rev=84507a99a46ffb1b8dcc1a97c70842e2bc5274ad#84507a99a46ffb1b8dcc1a97c70842e2bc5274ad"
+source = "git+https://github.com/blukai/haste.git?rev=0b620718095c22206b0f3ad51cf63109005fc425#0b620718095c22206b0f3ad51cf63109005fc425"
 dependencies = [
  "anyhow",
  "dungers",
@@ -165,6 +165,7 @@ dependencies = [
  "haste_vartype",
  "lazy_static",
  "nohash",
+ "prost",
  "snap",
  "thiserror",
  "valveprotos",
@@ -173,7 +174,7 @@ dependencies = [
 [[package]]
 name = "haste_vartype"
 version = "0.0.0"
-source = "git+https://github.com/blukai/haste.git?rev=84507a99a46ffb1b8dcc1a97c70842e2bc5274ad#84507a99a46ffb1b8dcc1a97c70842e2bc5274ad"
+source = "git+https://github.com/blukai/haste.git?rev=0b620718095c22206b0f3ad51cf63109005fc425#0b620718095c22206b0f3ad51cf63109005fc425"
 dependencies = [
  "dungers",
  "thiserror",
