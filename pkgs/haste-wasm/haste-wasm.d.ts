@@ -147,9 +147,9 @@ export interface InitOutput {
   readonly wrappedparser_listStringTableItems: (a: number, b: number, c: number, d: number) => void;
   readonly isEHandleValid: (a: number) => number;
   readonly eHandleToIndex: (a: number) => number;
-  readonly __wbg_get_stringtableli_name: (a: number, b: number) => void;
   readonly __wbg_set_entityli_name: (a: number, b: number, c: number) => void;
   readonly __wbg_set_stringtableli_name: (a: number, b: number, c: number) => void;
+  readonly __wbg_get_stringtableli_name: (a: number, b: number) => void;
   readonly __wbindgen_malloc: (a: number, b: number) => number;
   readonly __wbindgen_realloc: (a: number, b: number, c: number, d: number) => number;
   readonly __wbindgen_add_to_stack_pointer: (a: number) => number;
