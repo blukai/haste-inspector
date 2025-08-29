@@ -121,7 +121,7 @@ checksum = "e5274423e17b7c9fc20b6e7e208532f9b19825d82dfd615708b70edd83df41f1"
 [[package]]
 name = "haste"
 version = "0.0.0"
-source = "git+https://github.com/blukai/haste.git?rev=1014c2f#1014c2f9f6572e5794acceee80b0b46a4de261a6"
+source = "git+https://github.com/blukai/haste.git?rev=f3d0c43#f3d0c433c2745eeb2e6bd54a17b9fc89966f2f2c"
 dependencies = [
  "haste_core",
 ]
@@ -137,7 +137,7 @@ dependencies = [
 [[package]]
 name = "haste_core"
 version = "0.0.0"
-source = "git+https://github.com/blukai/haste.git?rev=1014c2f#1014c2f9f6572e5794acceee80b0b46a4de261a6"
+source = "git+https://github.com/blukai/haste.git?rev=f3d0c43#f3d0c433c2745eeb2e6bd54a17b9fc89966f2f2c"
 dependencies = [
  "anyhow",
  "bitbuf",
@@ -156,7 +156,7 @@ dependencies = [
 [[package]]
 name = "haste_vartype"
 version = "0.0.0"
-source = "git+https://github.com/blukai/haste.git?rev=1014c2f#1014c2f9f6572e5794acceee80b0b46a4de261a6"
+source = "git+https://github.com/blukai/haste.git?rev=f3d0c43#f3d0c433c2745eeb2e6bd54a17b9fc89966f2f2c"
 dependencies = [
  "charsor",
  "thiserror",

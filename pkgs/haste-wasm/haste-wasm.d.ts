@@ -130,6 +130,7 @@ export interface InitOutput {
   readonly __wbg_get_entityfieldli_decodedAs: (a: number, b: number) => void;
   readonly __wbg_set_entityfieldli_decodedAs: (a: number, b: number, c: number) => void;
   readonly __wbg_stringtableli_free: (a: number, b: number) => void;
+  readonly __wbg_get_stringtableli_name: (a: number, b: number) => void;
   readonly __wbg_stringtableitemli_free: (a: number, b: number) => void;
   readonly __wbg_get_stringtableitemli_string: (a: number, b: number) => void;
   readonly __wbg_set_stringtableitemli_string: (a: number, b: number, c: number) => void;
@@ -149,7 +150,6 @@ export interface InitOutput {
   readonly eHandleToIndex: (a: number) => number;
   readonly __wbg_set_entityli_name: (a: number, b: number, c: number) => void;
   readonly __wbg_set_stringtableli_name: (a: number, b: number, c: number) => void;
-  readonly __wbg_get_stringtableli_name: (a: number, b: number) => void;
   readonly __wbindgen_malloc: (a: number, b: number) => number;
   readonly __wbindgen_realloc: (a: number, b: number, c: number, d: number) => number;
   readonly __wbindgen_add_to_stack_pointer: (a: number) => number;
