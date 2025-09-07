@@ -120,11 +120,16 @@ impl WrappedParser {
                     // exists
                     .unwrap_throw();
                 let (named_path, var_type) = get_value_info(entity.serializer(), fp);
-
+                let value = match field_value {
+                    haste::fieldvalue::FieldValue::String(data) => {
+                        String::from_utf8_lossy(data).into_owned()
+                    }
+                    other => other.to_string(),
+                };
                 EntityFieldLi {
                     path: fp.iter().cloned().collect(),
                     named_path,
-                    value: field_value.to_string(),
+                    value,
                     encoded_as: var_type,
                     decoded_as: get_field_value_discriminant_name(field_value).to_string(),
                 }

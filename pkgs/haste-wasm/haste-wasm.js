@@ -771,16 +771,16 @@ function __wbg_get_imports() {
         const ret = StringTableLi.__wrap(arg0);
         return addHeapObject(ret);
     };
-    imports.wbg.__wbg_entityfieldli_new = function(arg0) {
-        const ret = EntityFieldLi.__wrap(arg0);
+    imports.wbg.__wbg_stringtableitemli_new = function(arg0) {
+        const ret = StringTableItemLi.__wrap(arg0);
         return addHeapObject(ret);
     };
     imports.wbg.__wbg_entityli_new = function(arg0) {
         const ret = EntityLi.__wrap(arg0);
         return addHeapObject(ret);
     };
-    imports.wbg.__wbg_stringtableitemli_new = function(arg0) {
-        const ret = StringTableItemLi.__wrap(arg0);
+    imports.wbg.__wbg_entityfieldli_new = function(arg0) {
+        const ret = EntityFieldLi.__wrap(arg0);
         return addHeapObject(ret);
     };
     imports.wbg.__wbindgen_string_new = function(arg0, arg1) {
