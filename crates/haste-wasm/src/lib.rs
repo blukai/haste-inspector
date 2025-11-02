@@ -195,7 +195,7 @@ impl WrappedParser {
 }
 
 fn get_value_info(serializer: &FlattenedSerializer, fp: &FieldPath) -> (Vec<String>, String) {
-    let mut result = Vec::with_capacity(fp.last());
+    let mut named_path = Vec::with_capacity(fp.last());
 
     let first_field_index = fp.get(0).unwrap_throw();
     let mut field = serializer
@@ -203,22 +203,27 @@ fn get_value_info(serializer: &FlattenedSerializer, fp: &FieldPath) -> (Vec<Stri
         // NOTE: this may only throw if data is corrupted or something, but
         // never in normal circumbstances
         .unwrap_throw();
-    result.push(field.var_name.str.to_string());
+
+    if let Some(ref send_node) = field.send_node {
+        named_path.extend(send_node.str.split('.').map(String::from));
+    }
+
+    named_path.push(field.var_name.str.to_string());
 
     for field_index in fp.iter().skip(1) {
         if field.is_dynamic_array() {
             field = field.get_child(0).unwrap_throw();
-            result.push(field_index.to_string());
+            named_path.push(field_index.to_string());
         } else {
             // TODO: consider changing type of index arg in child*?
             // funcs from usize to u8 to be consistent with an actual
             // type of data in FieldPath
             field = field.get_child(*field_index as usize).unwrap_throw();
-            result.push(field.var_name.str.to_string());
+            named_path.push(field.var_name.str.to_string());
         }
     }
 
-    (result, field.var_type.str.to_string())
+    (named_path, field.var_type.str.to_string())
 }
 
 fn get_field_value_discriminant_name(field_value: &FieldValue) -> &'static str {

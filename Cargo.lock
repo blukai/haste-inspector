@@ -20,7 +20,7 @@ checksum = "86fdf8605db99b54d3cd748a44c6d04df638eb5dafb219b135d0149bd0db01f6"
 [[package]]
 name = "bitbuf"
 version = "0.0.0"
-source = "git+https://github.com/blukai/dungers.git?rev=854b1e2#854b1e2ce9fe40b133e8dd5d8ec8b72f27e55187"
+source = "git+https://github.com/blukai/dungers.git?rev=36b4bec#36b4bec8535b1f680d9008fd1fb2ba801a6149a3"
 dependencies = [
  "varint",
 ]
@@ -57,11 +57,6 @@ name = "cfg-if"
 version = "1.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "baf1de4339761588bc0619e3cbc0120ee582ebb74b53b4efbf79117bd2da40fd"
-
-[[package]]
-name = "charsor"
-version = "0.0.0"
-source = "git+https://github.com/blukai/dungers.git?rev=854b1e2#854b1e2ce9fe40b133e8dd5d8ec8b72f27e55187"
 
 [[package]]
 name = "cmake"
@@ -113,6 +108,11 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0ce7134b9999ecaf8bcd65542e436736ef32ddca1b3e06094cb6ec5755203b80"
 
 [[package]]
+name = "fxhash"
+version = "0.0.0"
+source = "git+https://github.com/blukai/dungers.git?rev=36b4bec#36b4bec8535b1f680d9008fd1fb2ba801a6149a3"
+
+[[package]]
 name = "hashbrown"
 version = "0.14.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -121,7 +121,7 @@ checksum = "e5274423e17b7c9fc20b6e7e208532f9b19825d82dfd615708b70edd83df41f1"
 [[package]]
 name = "haste"
 version = "0.0.0"
-source = "git+https://github.com/blukai/haste.git?rev=4c9a560#4c9a560b269477dea84815cb15c31d56e7ec0774"
+source = "git+https://github.com/blukai/haste.git?rev=1b124b6#1b124b6aaadd66bbd67c6c638e8f5d8369af5a67"
 dependencies = [
  "haste_core",
 ]
@@ -137,12 +137,12 @@ dependencies = [
 [[package]]
 name = "haste_core"
 version = "0.0.0"
-source = "git+https://github.com/blukai/haste.git?rev=4c9a560#4c9a560b269477dea84815cb15c31d56e7ec0774"
+source = "git+https://github.com/blukai/haste.git?rev=1b124b6#1b124b6aaadd66bbd67c6c638e8f5d8369af5a67"
 dependencies = [
  "anyhow",
  "bitbuf",
  "dyn-clone",
- "hashbrown",
+ "fxhash",
  "haste_vartype",
  "lazy_static",
  "nohash",
@@ -156,9 +156,8 @@ dependencies = [
 [[package]]
 name = "haste_vartype"
 version = "0.0.0"
-source = "git+https://github.com/blukai/haste.git?rev=4c9a560#4c9a560b269477dea84815cb15c31d56e7ec0774"
+source = "git+https://github.com/blukai/haste.git?rev=1b124b6#1b124b6aaadd66bbd67c6c638e8f5d8369af5a67"
 dependencies = [
- "charsor",
  "thiserror",
 ]
 
@@ -225,9 +224,8 @@ checksum = "defc4c55412d89136f966bbb339008b474350e5e6e78d2714439c386b3137a03"
 
 [[package]]
 name = "nohash"
-version = "0.2.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a0f889fb66f7acdf83442c35775764b51fed3c606ab9cee51500dbde2cf528ca"
+version = "0.0.0"
+source = "git+https://github.com/blukai/dungers.git?rev=36b4bec#36b4bec8535b1f680d9008fd1fb2ba801a6149a3"
 
 [[package]]
 name = "once_cell"
@@ -454,7 +452,7 @@ dependencies = [
 [[package]]
 name = "varint"
 version = "0.0.0"
-source = "git+https://github.com/blukai/dungers.git?rev=854b1e2#854b1e2ce9fe40b133e8dd5d8ec8b72f27e55187"
+source = "git+https://github.com/blukai/dungers.git?rev=36b4bec#36b4bec8535b1f680d9008fd1fb2ba801a6149a3"
 
 [[package]]
 name = "wasm-bindgen"
