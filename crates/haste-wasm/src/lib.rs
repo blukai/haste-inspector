@@ -203,22 +203,32 @@ fn get_value_info(serializer: &FlattenedSerializer, fp: &FieldPath) -> (Vec<Stri
         // NOTE: this may only throw if data is corrupted or something, but
         // never in normal circumbstances
         .unwrap_throw();
-
     if let Some(ref send_node) = field.send_node {
-        named_path.extend(send_node.str.split('.').map(String::from));
+        named_path.extend(
+            send_node
+                .iter()
+                .filter_map(|maybe_part| maybe_part.as_ref().map(|part| part.str.to_string())),
+        );
     }
-
     named_path.push(field.var_name.str.to_string());
 
     for field_index in fp.iter().skip(1) {
         if field.is_dynamic_array() {
             field = field.get_child(0).unwrap_throw();
+            debug_assert!(field.send_node.is_none());
             named_path.push(field_index.to_string());
         } else {
             // TODO: consider changing type of index arg in child*?
             // funcs from usize to u8 to be consistent with an actual
             // type of data in FieldPath
             field = field.get_child(*field_index as usize).unwrap_throw();
+            if let Some(ref send_node) = field.send_node {
+                named_path.extend(
+                    send_node.iter().filter_map(|maybe_part| {
+                        maybe_part.as_ref().map(|part| part.str.to_string())
+                    }),
+                );
+            }
             named_path.push(field.var_name.str.to_string());
         }
     }
