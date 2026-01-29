@@ -20,7 +20,7 @@ checksum = "86fdf8605db99b54d3cd748a44c6d04df638eb5dafb219b135d0149bd0db01f6"
 [[package]]
 name = "bitbuf"
 version = "0.0.0"
-source = "git+https://github.com/blukai/dungers.git?rev=36b4bec#36b4bec8535b1f680d9008fd1fb2ba801a6149a3"
+source = "git+https://github.com/blukai/mars.git?rev=5d831c5#5d831c5744bcfac27a8a1c8ddb8478830fa4c423"
 dependencies = [
  "varint",
 ]
@@ -110,7 +110,7 @@ checksum = "0ce7134b9999ecaf8bcd65542e436736ef32ddca1b3e06094cb6ec5755203b80"
 [[package]]
 name = "fxhash"
 version = "0.0.0"
-source = "git+https://github.com/blukai/dungers.git?rev=36b4bec#36b4bec8535b1f680d9008fd1fb2ba801a6149a3"
+source = "git+https://github.com/blukai/mars.git?rev=5d831c5#5d831c5744bcfac27a8a1c8ddb8478830fa4c423"
 
 [[package]]
 name = "hashbrown"
@@ -121,7 +121,7 @@ checksum = "e5274423e17b7c9fc20b6e7e208532f9b19825d82dfd615708b70edd83df41f1"
 [[package]]
 name = "haste"
 version = "0.0.0"
-source = "git+https://github.com/blukai/haste.git?rev=1bbd3b5#1bbd3b507398125cfa015590911100837b8abfa6"
+source = "git+https://github.com/blukai/haste.git?rev=e5491c3#e5491c37fb70ea7cc762423406a450dd956c8050"
 dependencies = [
  "haste_core",
 ]
@@ -137,26 +137,22 @@ dependencies = [
 [[package]]
 name = "haste_core"
 version = "0.0.0"
-source = "git+https://github.com/blukai/haste.git?rev=1bbd3b5#1bbd3b507398125cfa015590911100837b8abfa6"
+source = "git+https://github.com/blukai/haste.git?rev=e5491c3#e5491c37fb70ea7cc762423406a450dd956c8050"
 dependencies = [
  "anyhow",
- "bitbuf",
  "dyn-clone",
- "fxhash",
  "haste_vartype",
- "lazy_static",
- "nohash",
+ "mars",
  "prost",
  "snap",
  "thiserror",
  "valveprotos",
- "varint",
 ]
 
 [[package]]
 name = "haste_vartype"
 version = "0.0.0"
-source = "git+https://github.com/blukai/haste.git?rev=1bbd3b5#1bbd3b507398125cfa015590911100837b8abfa6"
+source = "git+https://github.com/blukai/haste.git?rev=e5491c3#e5491c37fb70ea7cc762423406a450dd956c8050"
 dependencies = [
  "thiserror",
 ]
@@ -187,12 +183,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "lazy_static"
-version = "1.5.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "bbd2bcb4c963f2ddae06a2efc7e9f3591312473c50c6685e1f298068316e66fe"
-
-[[package]]
 name = "libc"
 version = "0.2.159"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -211,6 +201,17 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "a7a70ba024b9dc04c27ea2f0c0548feb474ec5c54bba33a7f72f873a39d07b24"
 
 [[package]]
+name = "mars"
+version = "0.0.0"
+source = "git+https://github.com/blukai/mars.git?rev=5d831c5#5d831c5744bcfac27a8a1c8ddb8478830fa4c423"
+dependencies = [
+ "bitbuf",
+ "fxhash",
+ "nohash",
+ "varint",
+]
+
+[[package]]
 name = "memchr"
 version = "2.7.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -225,7 +226,7 @@ checksum = "defc4c55412d89136f966bbb339008b474350e5e6e78d2714439c386b3137a03"
 [[package]]
 name = "nohash"
 version = "0.0.0"
-source = "git+https://github.com/blukai/dungers.git?rev=36b4bec#36b4bec8535b1f680d9008fd1fb2ba801a6149a3"
+source = "git+https://github.com/blukai/mars.git?rev=5d831c5#5d831c5744bcfac27a8a1c8ddb8478830fa4c423"
 
 [[package]]
 name = "once_cell"
@@ -452,7 +453,7 @@ dependencies = [
 [[package]]
 name = "varint"
 version = "0.0.0"
-source = "git+https://github.com/blukai/dungers.git?rev=36b4bec#36b4bec8535b1f680d9008fd1fb2ba801a6149a3"
+source = "git+https://github.com/blukai/mars.git?rev=5d831c5#5d831c5744bcfac27a8a1c8ddb8478830fa4c423"
 
 [[package]]
 name = "wasm-bindgen"

@@ -8,6 +8,6 @@ members = [
 edition = "2021"
 
 [workspace.dependencies]
-haste = { git = "https://github.com/blukai/haste.git", rev = "1bbd3b5", features = ["preserve-metadata"] }
+haste = { git = "https://github.com/blukai/haste.git", rev = "e5491c3", features = ["preserve-metadata"] }
 wasm-bindgen = "0.2"
 
