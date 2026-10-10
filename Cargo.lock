@@ -68,12 +68,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "dyn-clone"
-version = "1.0.17"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0d6ef0072f8a535281e4876be788938b528e9a1d43900b82c2569af7da799125"
-
-[[package]]
 name = "either"
 version = "1.13.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -121,7 +115,7 @@ checksum = "e5274423e17b7c9fc20b6e7e208532f9b19825d82dfd615708b70edd83df41f1"
 [[package]]
 name = "haste"
 version = "0.0.0"
-source = "git+https://github.com/blukai/haste.git?rev=e5491c3#e5491c37fb70ea7cc762423406a450dd956c8050"
+source = "git+https://github.com/blukai/haste.git?rev=7ce32e6#7ce32e67ba107f256777a10fe0cb19b7812dd187"
 dependencies = [
  "haste_core",
 ]
@@ -137,10 +131,9 @@ dependencies = [
 [[package]]
 name = "haste_core"
 version = "0.0.0"
-source = "git+https://github.com/blukai/haste.git?rev=e5491c3#e5491c37fb70ea7cc762423406a450dd956c8050"
+source = "git+https://github.com/blukai/haste.git?rev=7ce32e6#7ce32e67ba107f256777a10fe0cb19b7812dd187"
 dependencies = [
  "anyhow",
- "dyn-clone",
  "haste_vartype",
  "mars",
  "prost",
@@ -152,7 +145,7 @@ dependencies = [
 [[package]]
 name = "haste_vartype"
 version = "0.0.0"
-source = "git+https://github.com/blukai/haste.git?rev=e5491c3#e5491c37fb70ea7cc762423406a450dd956c8050"
+source = "git+https://github.com/blukai/haste.git?rev=7ce32e6#7ce32e67ba107f256777a10fe0cb19b7812dd187"
 dependencies = [
  "thiserror",
 ]

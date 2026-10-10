@@ -1,9 +1,9 @@
 import { useVirtualizer } from "@tanstack/react-virtual";
 import {
-  isEHandleValid,
   type EntityFieldLi,
   type EntityLi,
   eHandleToIndex,
+  isEHandleValid,
 } from "haste-wasm";
 import { useAtom } from "jotai";
 import { CogIcon, Link2Icon, Link2OffIcon } from "lucide-react";
