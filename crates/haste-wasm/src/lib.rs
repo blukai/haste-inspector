@@ -247,6 +247,7 @@ fn get_field_value_discriminant_name(field_value: &FieldValue) -> &'static str {
         FieldValue::Vector4(_) => "Vector4",
         FieldValue::QAngle(_) => "QAngle",
         FieldValue::String(_) => "String",
+        FieldValue::BinaryBlock(_) => "BinaryBlock",
     }
 }
 
